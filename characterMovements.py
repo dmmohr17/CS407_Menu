@@ -23,6 +23,9 @@ JUMP_STRENGTH = -450
 GROUND_Y = 450
 BLACK = (0, 0, 0)
 
+PLAYER_LEFT_LIMIT = 100
+PLAYER_RIGHT_LIMIT = 400
+
 def getImage(sheet, frame, width, height, scale, color):
     image = pygame.Surface((width, height)).convert_alpha()
     image.blit(sheet, (0, 0), (frame*width, 0, width, height))
@@ -62,6 +65,7 @@ class Player(pygame.sprite.Sprite):
         self.dashTime = 0
         self.dashDuration = 0.15
         self.dashSpeed = 800
+        self.isOnEdgeOfScreen = False
 
         self.animation_timer = 0
         self.animation_speed = 0.1
@@ -86,12 +90,34 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         return
 
+class Boundary(pygame.sprite.Sprite):
+    def __init__(self, module_x, module_y):
+        super().__init__()
+        self.image = pygame.Surface((50, 50))
+        self.image.fill(GRAY)
+        self.rect = self.image.get_rect()
+        self.rect.x = module_x
+        self.rect.y = module_y
+    def update(self, x_offset):
+        self.rect.x -= x_offset
+
+boundary_list = []
+for i in range(10):
+    boundary = Boundary(-250 + 50 * i, 50 * i)
+    boundary_list.append(boundary)
+
+for i in range(5):
+    boundary = Boundary(500 - (50 * i), 250 + 50 * i)
+    boundary_list.append(boundary)
+
 player = Player()
+x_offset = 0
 running = True
 
 while running:
     dt = clock.tick(60) / 1000  # seconds per frame
     player.update(dt)
+    x_offset = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -148,8 +174,39 @@ while running:
     player.velocity_y += GRAVITY * dt
 
     # apply movement
-    player.rect.x += player.velocity_x * dt
+    if player.rect.x <= PLAYER_RIGHT_LIMIT and player.rect.x >= PLAYER_LEFT_LIMIT:
+        player.rect.x += player.velocity_x * dt
+        for boundary in boundary_list:
+            if player.rect.colliderect(boundary.rect):
+                if player.velocity_x < 0:
+                    player.rect.left = boundary.rect.right
+                if player.velocity_x > 0:
+                    player.rect.right = boundary.rect.left
+                player.velocity_x = 0
+
+        player.isOnEdgeOfScreen = False
+    elif player.rect.x > PLAYER_RIGHT_LIMIT:
+        player.rect.x = PLAYER_RIGHT_LIMIT
+        x_offset += player.velocity_x * dt
+        player.isOnEdgeOfScreen = True
+    elif player.rect.x < PLAYER_LEFT_LIMIT:
+        player.rect.x = PLAYER_LEFT_LIMIT
+        x_offset += player.velocity_x * dt
+        player.isOnEdgeOfScreen = True
+    
     player.rect.y += player.velocity_y * dt
+    for boundary in boundary_list:
+            if player.rect.colliderect(boundary.rect):
+                if player.velocity_y > 0:
+                    player.rect.bottom = boundary.rect.top
+                    player.velocity_y = 0
+                    player.isOnGround = True
+                if player.velocity_y < 0:
+                    player.rect.top = boundary.rect.bottom
+                player.velocity_y = 0
+
+    for boundary in boundary_list:
+        boundary.update(x_offset)
 
     # ground collision
     if player.rect.y >= GROUND_Y:
@@ -162,6 +219,8 @@ while running:
     screen.fill(WHITE)
     #screen.blit(frame_standing, (0, 0))
     screen.blit(player.image, player.rect)
+    for boundary in boundary_list:
+        screen.blit(boundary.image, boundary.rect)
     pygame.display.flip()
 
 pygame.quit()
