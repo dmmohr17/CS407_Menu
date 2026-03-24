@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 # coin clip jpg is 1369p x 360p
-# should add health bar next
+# add attacks and health bar depletion next
 
 devtools = 'on'
 healthbars = 'on'
