@@ -2,7 +2,11 @@ import pygame
 
 pygame.init()
 
+# coin clip jpg is 1369p x 360p
+# should add health bar next
+
 devtools = 'on'
+healthbars = 'on'
 # Constants
 WIDTH, HEIGHT = 500, 500
 WHITE = (255, 255, 255)
@@ -24,6 +28,7 @@ MAX_DASH_SPEED = 700
 JUMP_STRENGTH = -450
 GROUND_Y = 450
 BLACK = (0, 0, 0)
+GREEN = (0, 122, 122)
 
 PLAYER_LEFT_LIMIT = 100
 PLAYER_RIGHT_LIMIT = 376
@@ -47,17 +52,30 @@ walk_frames = [
     getImage(sprite_sheet_image, 23, 24, 24, 2, BLACK)
 ]
 
+player1_controls = {
+    "left": pygame.K_a,
+    "right": pygame.K_d,
+    "jump": pygame.K_w,
+    "dash": pygame.K_LSHIFT
+}
+
+player2_controls = {
+    "left": pygame.K_LEFT,
+    "right": pygame.K_RIGHT,
+    "jump": pygame.K_UP,
+    "dash": pygame.K_RSHIFT
+}
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, x, y, walk_frames, controls):
         super().__init__()
         self.walk_frame = walk_frames
         self.walk_frame_index = 0
         self.image = self.walk_frame[self.walk_frame_index]
         #self.image.fill(GRAY)
         self.rect = self.image.get_rect()
-        self.rect.x = 245
-        self.rect.y = GROUND_Y
+        self.rect.x = x
+        self.rect.y = y
         self.velocity_x = 0
         self.velocity_y = 0
         self.isOnGround = True
@@ -68,6 +86,9 @@ class Player(pygame.sprite.Sprite):
         self.dashDuration = 0.15
         self.dashSpeed = 800
         self.isOnEdgeOfScreen = False
+        self.health = 100
+
+        self.controls = controls
 
         self.animation_timer = 0
         self.animation_speed = 0.1
@@ -77,6 +98,11 @@ class Player(pygame.sprite.Sprite):
         self.hitbox.centerx -= 1
         self.hitbox.centery += 1
 
+        self.healthbar = self.rect.inflate(WIDTH * 0.02, HEIGHT * -0.075)
+        self.healthbar.center = self.rect.center
+        self.healthbar.centerx -= 1
+        self.healthbar.centery -= 30
+        
     def update (self, dt):
         self.animation_timer += dt
         self.hitbox.center = self.rect.center
@@ -100,6 +126,109 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK)
         return
 
+def handle_player(player, keys, dt):
+    if keys[player.controls["left"]]:
+        player.velocity_x -= ACCELERATION * dt
+        player.mostRecentXDirection = 'Left'
+
+    if keys[player.controls["right"]]:
+        player.velocity_x += ACCELERATION * dt
+        player.mostRecentXDirection = 'Right'
+
+    if not keys[player.controls["left"]] and not keys[player.controls["right"]]:
+        if player.velocity_x > 0:
+            player.velocity_x -= FRICTION * dt
+            if player.velocity_x < 0:
+                player.velocity_x = 0
+        elif player.velocity_x < 0:
+            player.velocity_x += FRICTION * dt
+            if player.velocity_x > 0:
+                player.velocity_x = 0
+
+    if player.dash:
+        player.dashTime -= dt
+        if player.dashTime <= 0:
+            player.dash = False
+    
+    # apply gravity
+    player.velocity_y += GRAVITY * dt
+
+    # clamp horizontal speed
+    if not player.dash:
+        player.velocity_x = max(-MAX_SPEED, min(MAX_SPEED, player.velocity_x))
+    if player.dash:
+        player.velocity_x = max(-MAX_DASH_SPEED, min(MAX_DASH_SPEED, player.velocity_x))
+
+def handle_event(player, event):
+    if event.type == pygame.KEYDOWN:
+        if event.key == player.controls["jump"] and player.isOnGround:
+            player.velocity_y = JUMP_STRENGTH
+            player.isOnGround = False
+            player.canDash = True
+
+        if event.key == player.controls["dash"] and not player.isOnGround and player.canDash:
+            player.dash = True
+            player.dashTime = player.dashDuration
+            player.canDash = False
+
+            if player.mostRecentXDirection == 'Right':
+                player.velocity_x = player.dashSpeed
+            else:
+                player.velocity_x = -player.dashSpeed
+
+def apply_physics(player, dt):
+    global x_offset
+
+    if player.hitbox.right <= PLAYER_RIGHT_LIMIT and player.hitbox.left >= PLAYER_LEFT_LIMIT:
+        player.hitbox.x += player.velocity_x * dt
+        for boundary in boundary_list:
+            if player.hitbox.colliderect(boundary.rect):
+                if player.velocity_x > 0:
+                    player.hitbox.right = boundary.rect.left
+                elif player.velocity_x < 0:
+                    player.hitbox.left = boundary.rect.right
+                player.velocity_x = 0
+
+        player.isOnEdgeOfScreen = False
+
+    elif player.hitbox.right > PLAYER_RIGHT_LIMIT:
+        player.hitbox.right = PLAYER_RIGHT_LIMIT
+        x_offset += player.velocity_x * dt
+        player.isOnEdgeOfScreen = True
+
+    elif player.hitbox.left < PLAYER_LEFT_LIMIT:
+        player.hitbox.left = PLAYER_LEFT_LIMIT
+        x_offset += player.velocity_x * dt
+        player.isOnEdgeOfScreen = True
+
+    # Vertical
+    player.hitbox.y += player.velocity_y * dt
+    for boundary in boundary_list:
+        if player.hitbox.colliderect(boundary.rect):
+            if player.velocity_y > 0:
+                player.hitbox.bottom = boundary.rect.top
+                player.velocity_y = 0
+                player.isOnGround = True
+            elif player.velocity_y < 0:
+                player.hitbox.top = boundary.rect.bottom
+                player.velocity_y = 0
+
+    # Sync
+    player.rect.center = player.hitbox.center
+    player.rect.x += 1
+    player.rect.y -= 1
+
+    player.healthbar.center = player.rect.center
+    player.healthbar.centerx -= 1
+    player.healthbar.centery -= 30
+
+    if player.rect.y >= GROUND_Y:
+        player.rect.y = GROUND_Y
+        player.velocity_y = 0
+        player.isOnGround = True
+        player.dash = False
+        player.canDash = False
+
 class Boundary(pygame.sprite.Sprite):
     def __init__(self, module_x, module_y):
         super().__init__()
@@ -113,21 +242,20 @@ class Boundary(pygame.sprite.Sprite):
         self.rect.x -= x_offset
 
 boundary_list = []
-for i in range(10):
-    boundary = Boundary(-250 + 50 * i, 50 * i)
+for i in range(15):
+    boundary = Boundary(-250 + 50 * i, 425)
     boundary_list.append(boundary)
 
-for i in range(5):
-    boundary = Boundary(500 - (50 * i), 250 + 50 * i)
-    boundary_list.append(boundary)
+player1 = Player(245, GROUND_Y, walk_frames, player1_controls)
+player2 = Player(400, GROUND_Y, walk_frames, player2_controls)
 
-player = Player()
 x_offset = 0
 running = True
 
 while running:
     dt = clock.tick(60) / 1000  # seconds per frame
-    player.update(dt)
+    player1.update(dt)
+    player2.update(dt)
     x_offset = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -137,115 +265,34 @@ while running:
             if event.key == pygame.K_q:
                 running = False
 
-            if event.key == pygame.K_UP and player.isOnGround:
-                player.velocity_y = JUMP_STRENGTH
-                player.isOnGround = False
-                player.canDash = True
-            
-            if event.key == pygame.K_d and not player.isOnGround and player.canDash:
-                player.dash = True
-                player.dashTime = player.dashDuration
-                player.canDash = False
-                if player.mostRecentXDirection == 'Right':
-                    player.velocity_x = player.dashSpeed
-                if player.mostRecentXDirection == 'Left':
-                    player.velocity_x = -player.dashSpeed
+        handle_event(player1, event)
+        handle_event(player2, event)
+
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_LEFT]:
-        player.velocity_x -= ACCELERATION * dt
-        player.mostRecentXDirection = 'Left'
+    handle_player(player1, keys, dt)
+    handle_player(player2, keys, dt)
 
-    if keys[pygame.K_RIGHT]:
-        player.velocity_x += ACCELERATION * dt
-        player.mostRecentXDirection = 'Right'
-
-    if not keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]: # friction
-        if player.velocity_x > 0:
-            player.velocity_x -= FRICTION * dt
-            if player.velocity_x < 0:
-                player.velocity_x = 0
-        elif player.velocity_x < 0:
-            player.velocity_x += FRICTION * dt
-            if player.velocity_x > 0:
-                player.velocity_x = 0
-    if player.dash:
-        player.dashTime -= dt
-        #player.velocity_y = 0
-
-        if player.dashTime <= 0:
-            player.dash = False
-    # clamp horizontal speed
-    if not player.dash:
-        player.velocity_x = max(-MAX_SPEED, min(MAX_SPEED, player.velocity_x))
-    if player.dash:
-        player.velocity_x = max(-MAX_DASH_SPEED, min(MAX_DASH_SPEED, player.velocity_x))
-
-    # apply gravity
-    player.velocity_y += GRAVITY * dt
-
-    # apply movement
-    if player.hitbox.right <= PLAYER_RIGHT_LIMIT and player.hitbox.left >= PLAYER_LEFT_LIMIT:
-        # Horizontal movement
-        player.hitbox.x += player.velocity_x * dt
-        for boundary in boundary_list:
-            if player.hitbox.colliderect(boundary.rect):
-                if player.velocity_x > 0:
-                    player.hitbox.right = boundary.rect.left
-                elif player.velocity_x < 0:
-                    player.hitbox.left = boundary.rect.right
-                player.velocity_x = 0
-
-        #player.rect.center = player.hitbox.center
-        #player.rect.x += 1
-        #player.rect.y -= 1
-
-        player.isOnEdgeOfScreen = False
-    elif player.hitbox.right > PLAYER_RIGHT_LIMIT:
-        player.hitbox.right = PLAYER_RIGHT_LIMIT
-        x_offset += player.velocity_x * dt
-        player.isOnEdgeOfScreen = True
-    elif player.hitbox.left < PLAYER_LEFT_LIMIT:
-        player.hitbox.left = PLAYER_LEFT_LIMIT
-        x_offset += player.velocity_x * dt
-        player.isOnEdgeOfScreen = True
+    apply_physics(player1, dt)
+    apply_physics(player2, dt)
     
-    # Vertical movement
-    player.hitbox.y += player.velocity_y * dt
-    for boundary in boundary_list:
-        if player.hitbox.colliderect(boundary.rect):
-            if player.velocity_y > 0:
-                player.hitbox.bottom = boundary.rect.top
-                player.velocity_y = 0
-                player.isOnGround = True
-            elif player.velocity_y < 0:
-                player.hitbox.top = boundary.rect.bottom
-                player.velocity_y = 0
-
-    # Sync sprite rect to hitbox
-    player.rect.center = player.hitbox.center
-    player.rect.x += 1
-    player.rect.y -= 1
-
     for boundary in boundary_list:
         boundary.update(x_offset)
 
-    # ground collision
-    if player.rect.y >= GROUND_Y:
-        player.rect.y = GROUND_Y
-        player.velocity_y = 0
-        player.isOnGround = True
-        player.dash = False
-        player.canDash = False
-
     screen.fill(WHITE)
     #screen.blit(frame_standing, (0, 0))
-    screen.blit(player.image, player.rect)
+    screen.blit(player1.image, player1.rect)
+    screen.blit(player2.image, player2.rect)
     for boundary in boundary_list:
         screen.blit(boundary.image, boundary.rect)
     if devtools == 'on':
-        print(player.hitbox)
-        pygame.draw.rect(screen, (255,0,0), player.hitbox, 2)
+        print(player1.hitbox)
+        pygame.draw.rect(screen, (255,0,0), player1.hitbox, 2)
+        pygame.draw.rect(screen, (255,0,0), player2.hitbox, 2)
+    if healthbars == 'on':
+        print(player1.healthbar)
+        pygame.draw.rect(screen, (0, 122, 122), player1.healthbar)
+        pygame.draw.rect(screen, (0, 122, 122), player2.healthbar)
     pygame.display.flip()
 
 pygame.quit()
