@@ -13,7 +13,7 @@ pygame.init()
 # add attacks and health bar depletion next
 
 devtools = 'on'
-healthbars = 'on'
+healthbars = 'off'
 MAP = 'map1'
 # colors
 WIDTH, HEIGHT = 500, 500
@@ -32,6 +32,7 @@ throwing_knife_sheet_image = pygame.image.load('throwing_knife.png').convert_alp
 fireball_sheet_image = pygame.image.load('fireball.png').convert_alpha()
 name_of_the_wind_sheet_image = pygame.image.load('name_of_the_wind.png').convert_alpha()
 thor_hammer_sheet_image = pygame.image.load('thor-hammer.png').convert_alpha()
+crit_sheet_image = pygame.image.load('crit.jpg').convert_alpha()
 
 GRAVITY = 1500
 ACCELERATION = 1500
@@ -235,6 +236,25 @@ while running:
         #print(player1.healthbar)
         pygame.draw.rect(screen, (0, 122, 122), player1.healthbar)
         pygame.draw.rect(screen, (0, 122, 122), player2.healthbar)
+    
+    current_time = pygame.time.get_ticks() / 1000
+
+    for player in players:
+        if current_time - player.crit_start_time > player.crit_duration:
+            player.displayCrit = False
+        else:
+            # scale the image
+            small_crit = pygame.transform.scale(crit_sheet_image, 
+                                                (crit_sheet_image.get_width() // 10, 
+                                                crit_sheet_image.get_height() // 10))
+
+            # calculate position above the player
+            x = player.hitbox.centerx - small_crit.get_width() // 2
+            y = player.hitbox.top - small_crit.get_height() + 10
+
+            # draw it
+            screen.blit(small_crit, (x, y))
+            print("crit")
     pygame.display.flip()
 
 pygame.quit()

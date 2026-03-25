@@ -21,6 +21,9 @@ class NewPlayer(pygame.sprite.Sprite):
         self.dashSpeed = 800
         self.isOnEdgeOfScreen = False
         self.health = 100
+        self.crit_start_time = 0      # time when crit appears
+        self.crit_duration = 0.5      # seconds
+        self.displayCrit = False
 
         self.hasThrown = False
         self.hasMeleed = False

@@ -105,5 +105,10 @@ def apply_physics(player, boundary_list, dt):
 def meleeAttack(player, players):
     for p in players:
         if player != p and player.hitbox.colliderect(p.hitbox):
-            p.health -= player.melee_damage
+            if player.dash == True:
+                p.health -= player.melee_damage * 2
+                player.displayCrit = True
+                player.crit_start_time = pygame.time.get_ticks() / 1000
+            else:
+                p.health -= player.melee_damage
     return
