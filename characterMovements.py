@@ -1,6 +1,7 @@
 import pygame
 import math
 import player_utils
+import projectile_utils
 import boundary
 import map_create
 from projectile import NewProjectile
@@ -28,6 +29,7 @@ clock = pygame.time.Clock()
 sprite_sheet_image = pygame.image.load('character.png').convert_alpha()
 brick_sheet_image = pygame.image.load('square_brick.jpg').convert_alpha()
 throwing_knife_sheet_image = pygame.image.load('throwing_knife.png').convert_alpha()
+fireball_sheet_image = pygame.image.load('fireball.png').convert_alpha()
 
 GRAVITY = 1500
 ACCELERATION = 1500
@@ -39,7 +41,43 @@ JUMP_STRENGTH = -500
 GROUND_Y = 450
 KNIFE_THROWING_VELOCITY = 2000
 FIREBALL_THROWING_VELOCITY = 1000
+THROWING_KNIFE_DAMAGE = 10
+FIREBALL_DAMAGE = 33
 
+FIREBALL = {
+    "damage": 33,
+    "speed": 200,
+    "upward_force": -50,
+    "image": fireball_sheet_image,
+    "image_offset": 220,
+    "character_melee_damage": 3,
+    "melee_cooldown": .5
+}
+THROWING_KNIFE = {
+    "damage": 10,
+    "speed": 600,
+    "upward_force": -50,
+    "image": throwing_knife_sheet_image,
+    "image_offset": 40,
+    "character_melee_damage": 24,
+    "melee_cooldown": .5
+}
+NAME_OF_THE_WIND = {
+    "damage": 100,
+    "speed": 1000,
+    "upward_force": -20,
+    "image": throwing_knife_sheet_image,
+    "character_melee_damage": 5,
+    "melee_cooldown": 8
+}
+THOR = {
+    "damage": 50,
+    "speed": 800,
+    "upward_force": -20,
+    "image": throwing_knife_sheet_image,
+    "character_melee_damage": 80,
+    "melee_cooldown": 10
+}
 
 PLAYER_LEFT_LIMIT = 100
 PLAYER_RIGHT_LIMIT = 376
@@ -83,8 +121,10 @@ player2_controls = {
     "melee": pygame.K_o
 }
 
-def handle_event(player, event):
+def handle_event(player, event, players):
     if event.type == pygame.KEYDOWN:
+        current_time = pygame.time.get_ticks() / 1000  # seconds
+
         if event.key == player.controls["jump"] and player.isOnGround:
             player.velocity_y = JUMP_STRENGTH
             player.isOnGround = False
@@ -101,11 +141,15 @@ def handle_event(player, event):
                 player.velocity_x = -player.dashSpeed
         
         if event.key == player.controls["throw"] and not player.hasThrown and player.canDash:
-            p = NewProjectile(player.rect.x, player.rect.y, player.mostRecentXDirection, throwing_knife_sheet_image)
+            
+            p = NewProjectile(player.rect.x, player.rect.y, player.mostRecentXDirection, player.projectileType)
             projectile_group.append(p)
             player.projectiles.append(p)
             player.hasThrown = True
-
+        
+        if event.key == player.controls["melee"]:
+            print("melee")
+            player.hasMeleed = True
 
 boundary_list = []
 
@@ -113,8 +157,8 @@ MAP = 'map1'
 
 map_create.create_map(boundary_list, MAP, brick_sheet_image)
 
-player1 = NewPlayer(245, GROUND_Y, walk_frames, player1_controls, WIDTH, HEIGHT)
-player2 = NewPlayer(400, GROUND_Y, walk_frames, player2_controls, WIDTH, HEIGHT)
+player1 = NewPlayer(245, GROUND_Y, walk_frames, player1_controls, WIDTH, HEIGHT, THROWING_KNIFE)
+player2 = NewPlayer(400, GROUND_Y, walk_frames, player2_controls, WIDTH, HEIGHT, FIREBALL)
 
 players = []
 players.append(player1)
@@ -125,6 +169,7 @@ while running:
     dt = clock.tick(60) / 1000  # seconds per frame
     player1.update(dt, BLACK)
     player2.update(dt, BLACK)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -133,8 +178,8 @@ while running:
             if event.key == pygame.K_q:
                 running = False
 
-        handle_event(player1, event)
-        handle_event(player2, event)
+        handle_event(player1, event, players)
+        handle_event(player2, event, players)
 
     keys = pygame.key.get_pressed()
 
@@ -147,6 +192,9 @@ while running:
                 player.projectiles.remove(p)
                 projectile_group.remove(p)
                 player.hasThrown = False
+        if player.hasMeleed == True:
+            player_utils.meleeAttack(player, players)
+            player.hasMeleed = False
         
     for projectile in projectile_group[:]:
         if projectile.rect.bottom >= GROUND_Y:
@@ -159,6 +207,10 @@ while running:
     
     for projectile in projectile_group:
         projectile.update(dt)
+    
+    for projectile in projectile_group:
+        if projectile_utils.checkCollision(projectile, players) == True:
+            screen.fill(BLACK)
 
     for player in players:
         if player_utils.checkHealth(player, dt) == False:
@@ -172,11 +224,11 @@ while running:
     for projectile in projectile_group:
         screen.blit(projectile.image, projectile.rect)
     if devtools == 'on':
-        print(player1.hitbox)
+        #print(player1.hitbox)
         pygame.draw.rect(screen, (255,0,0), player1.hitbox, 2)
         pygame.draw.rect(screen, (255,0,0), player2.hitbox, 2)
     if healthbars == 'on':
-        print(player1.healthbar)
+        #print(player1.healthbar)
         pygame.draw.rect(screen, (0, 122, 122), player1.healthbar)
         pygame.draw.rect(screen, (0, 122, 122), player2.healthbar)
     pygame.display.flip()

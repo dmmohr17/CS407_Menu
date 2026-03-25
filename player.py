@@ -1,7 +1,7 @@
 import pygame
 
 class NewPlayer(pygame.sprite.Sprite):
-    def __init__(self, x, y, walk_frames, controls, WIDTH, HEIGHT):
+    def __init__(self, x, y, walk_frames, controls, WIDTH, HEIGHT, projectileType):
         super().__init__()
         self.walk_frame = walk_frames
         self.walk_frame_index = 0
@@ -23,7 +23,14 @@ class NewPlayer(pygame.sprite.Sprite):
         self.health = 100
 
         self.hasThrown = False
+        self.hasMeleed = False
+
         self.projectiles = []
+        self.projectileType = projectileType
+        self.melee_damage = projectileType["character_melee_damage"]
+        self.melee_cooldown = projectileType["melee_cooldown"]
+
+        self.last_melee_time = 0
 
         self.controls = controls
 

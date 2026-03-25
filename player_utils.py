@@ -45,7 +45,7 @@ def handle_player(player, keys, dt):
         player.velocity_x = max(-MAX_DASH_SPEED, min(MAX_DASH_SPEED, player.velocity_x))
 
 def checkHealth(player, dt):
-    if player.rect.y == GROUND_Y:
+    if player.rect.y == GROUND_Y or player.health <= 0:
         #screen.fill(BLACK)
         player.alive = False
         player.lives -= 1
@@ -100,3 +100,10 @@ def apply_physics(player, boundary_list, dt):
         player.isOnGround = True
         player.dash = False
         player.canDash = False
+
+
+def meleeAttack(player, players):
+    for p in players:
+        if player != p and player.hitbox.colliderect(p.hitbox):
+            p.health -= player.melee_damage
+    return
