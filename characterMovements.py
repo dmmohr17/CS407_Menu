@@ -10,9 +10,9 @@ from player import NewPlayer
 pygame.init()
 
 # coin clip jpg is 1369p x 360p
-# add attacks and health bar depletion next
+# add lives and character stats in corner
 
-devtools = 'off'
+devtools = 'on'
 healthbars = 'on'
 backgroundArt = 'on'
 
@@ -28,16 +28,16 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Character Mechanics")
 
 clock = pygame.time.Clock()
-sprite_sheet_image = pygame.image.load('character.png').convert_alpha()
-thor_sprite_sheet_image = pygame.image.load('thor_sprite_sheet.png').convert_alpha()
-knife_sprite_sheet_image = pygame.image.load('fireball_sprite_sheet.png').convert_alpha()
-brick_sheet_image = pygame.image.load('square_brick.jpg').convert_alpha()
-throwing_knife_sheet_image = pygame.image.load('throwing_knife.png').convert_alpha()
-fireball_sheet_image = pygame.image.load('fireball.png').convert_alpha()
-name_of_the_wind_sheet_image = pygame.image.load('name_of_the_wind.png').convert_alpha()
-thor_hammer_sheet_image = pygame.image.load('thor-hammer.png').convert_alpha()
-crit_sheet_image = pygame.image.load('crit.jpg').convert_alpha()
-medieval_down_background_image = pygame.image.load('medieval_town_background.jpg').convert_alpha()
+sprite_sheet_image = pygame.image.load('image_reference/sprite_sheet/fireball_sprite_sheet.png').convert_alpha()
+thor_sprite_sheet_image = pygame.image.load('image_reference/sprite_sheet/thor_sprite_sheet.png').convert_alpha()
+knife_sprite_sheet_image = pygame.image.load('image_reference/sprite_sheet/throwing_knife_sprite_sheet.png').convert_alpha()
+brick_sheet_image = pygame.image.load('image_reference/entity/square_brick.jpg').convert_alpha()
+throwing_knife_sheet_image = pygame.image.load('image_reference/entity/throwing_knife.png').convert_alpha()
+fireball_sheet_image = pygame.image.load('image_reference/entity/fireball.png').convert_alpha()
+name_of_the_wind_sheet_image = pygame.image.load('image_reference/entity/name_of_the_wind.png').convert_alpha()
+thor_hammer_sheet_image = pygame.image.load('image_reference/entity/thor-hammer.png').convert_alpha()
+crit_sheet_image = pygame.image.load('image_reference/entity/crit.jpg').convert_alpha()
+medieval_down_background_image = pygame.image.load('image_reference/background/medieval_town_background.jpg').convert_alpha()
 
 GRAVITY = 1500
 ACCELERATION = 1500
