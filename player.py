@@ -1,9 +1,9 @@
 import pygame
 
 class NewPlayer(pygame.sprite.Sprite):
-    def __init__(self, x, y, walk_frames, controls, WIDTH, HEIGHT, projectileType):
+    def __init__(self, x, y, controls, WIDTH, HEIGHT, projectileType):
         super().__init__()
-        self.walk_frame = walk_frames
+        self.walk_frame = projectileType["walk_frames"]
         self.walk_frame_index = 0
         self.image = self.walk_frame[self.walk_frame_index]
         #self.image.fill(GRAY)
@@ -12,7 +12,7 @@ class NewPlayer(pygame.sprite.Sprite):
         self.rect.y = y-50
         self.velocity_x = 0
         self.velocity_y = 0
-        self.isOnGround = True
+        self.isOnGround = False
         self.dash = False
         self.canDash = True
         self.mostRecentXDirection = 'Right'

@@ -44,7 +44,7 @@ def handle_player(player, keys, dt):
     if player.dash:
         player.velocity_x = max(-MAX_DASH_SPEED, min(MAX_DASH_SPEED, player.velocity_x))
 
-def checkHealth(player, dt):
+def checkHealth(player, dt, dropInHeight):
     if player.rect.y == GROUND_Y or player.health <= 0:
         #screen.fill(BLACK)
         player.alive = False
@@ -53,7 +53,7 @@ def checkHealth(player, dt):
             # respawn
             player.health = player.maxHealth
             player.alive = True
-            player.rect.y = 0
+            player.rect.y = dropInHeight
             player.rect.x = 245
         else:
             return False
@@ -85,6 +85,9 @@ def apply_physics(player, boundary_list, dt):
                 player.hitbox.top = boundary.rect.bottom
                 player.velocity_y = 0
 
+    if player.hitbox.bottom % 25 != 0:
+        player.isOnGround = False
+
     # Sync
     player.rect.center = player.hitbox.center
     player.rect.x += 1
@@ -97,7 +100,7 @@ def apply_physics(player, boundary_list, dt):
     if player.rect.y >= GROUND_Y:
         player.rect.y = GROUND_Y
         player.velocity_y = 0
-        player.isOnGround = True
+        player.isOnGround = False
         player.dash = False
         player.canDash = False
 

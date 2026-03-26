@@ -15,14 +15,18 @@ pygame.init()
 devtools = 'on'
 healthbars = 'on'
 backgroundArt = 'on'
-arena = True
+player1_character = 'fireball'
+player2_character = 'throwing_knife'
+arena = False
+drop_in_height = 100
 
-MAP = 'map1'
+MAP = 'map4'
 
 MAP_LIST = {
     "map1": "town_hall",
     "map2": "arena",
-    "map3": "bowl_of_milk"
+    "map3": "bowl_of_milk",
+    "map4": "starry_space"
 }
 
 # colors
@@ -41,16 +45,20 @@ thor_sprite_sheet_image = pygame.image.load('image_reference/sprite_sheet/thor_s
 knife_sprite_sheet_image = pygame.image.load('image_reference/sprite_sheet/throwing_knife_sprite_sheet.png').convert_alpha()
 brick_sheet_image = pygame.image.load('image_reference/boundary/square_brick.jpg').convert_alpha()
 translucent_block_sheet_image = pygame.image.load('image_reference/boundary/translucent_block.jpg').convert_alpha()
+rainbow_brick_sheet_image = pygame.image.load('image_reference/boundary/rainbow_brick.jpg').convert_alpha()
 throwing_knife_sheet_image = pygame.image.load('image_reference/entity/throwing_knife.png').convert_alpha()
 fireball_sheet_image = pygame.image.load('image_reference/entity/fireball.png').convert_alpha()
 name_of_the_wind_sheet_image = pygame.image.load('image_reference/entity/name_of_the_wind.png').convert_alpha()
 thor_hammer_sheet_image = pygame.image.load('image_reference/entity/thor-hammer.png').convert_alpha()
 crit_sheet_image = pygame.image.load('image_reference/entity/crit.jpg').convert_alpha()
-medieval_down_background_image = pygame.image.load('image_reference/background/medieval_town_background.jpg').convert_alpha()
+medieval_town_background_image = pygame.image.load('image_reference/background/medieval_town_background.jpg').convert_alpha()
+bowl_of_milk_background_image = pygame.image.load('image_reference/background/bowl_of_milk.jpg').convert_alpha()
+space_background_image = pygame.image.load('image_reference/background/space_background.jpg').convert_alpha()
 
 block_types = [
     brick_sheet_image,
-    translucent_block_sheet_image
+    translucent_block_sheet_image,
+    rainbow_brick_sheet_image
 ]
 
 GRAVITY = 1500
@@ -59,53 +67,15 @@ DASH_ACCELERATION = 3000
 FRICTION = 1200
 MAX_SPEED = 400
 MAX_DASH_SPEED = 700
-JUMP_STRENGTH = -500
+if MAP == 'map4':
+    JUMP_STRENGTH = -750
+else:
+    JUMP_STRENGTH = -500
 GROUND_Y = 450
 KNIFE_THROWING_VELOCITY = 2000
 FIREBALL_THROWING_VELOCITY = 1000
 THROWING_KNIFE_DAMAGE = 10
 FIREBALL_DAMAGE = 33
-
-FIREBALL = {
-    "damage": 33,
-    "speed": 200,
-    "health": 150,
-    "upward_force": -50,
-    "image": fireball_sheet_image,
-    "image_offset": 220,
-    "character_melee_damage": 3,
-    "melee_cooldown": .5
-}
-THROWING_KNIFE = {
-    "damage": 10,
-    "speed": 600,
-    "health": 80,
-    "upward_force": -50,
-    "image": throwing_knife_sheet_image,
-    "image_offset": 40,
-    "character_melee_damage": 24,
-    "melee_cooldown": .5
-}
-NAME_OF_THE_WIND = {
-    "damage": 100,
-    "speed": 1000,
-    "health": 100,
-    "upward_force": -20,
-    "image": name_of_the_wind_sheet_image,
-    "image_offset": 0,
-    "character_melee_damage": 5,
-    "melee_cooldown": 8
-}
-THOR = {
-    "damage": 50,
-    "speed": 800,
-    "health": 200,
-    "upward_force": -20,
-    "image": thor_hammer_sheet_image,
-    "image_offset": 90,
-    "character_melee_damage": 80,
-    "melee_cooldown": 10
-}
 
 PLAYER_LEFT_LIMIT = 100
 PLAYER_RIGHT_LIMIT = 376
@@ -152,6 +122,51 @@ knife_walk_frames = [
     getImage(knife_sprite_sheet_image, 1, 77, 100, .45, BLACK),
     getImage(knife_sprite_sheet_image, 2, 77, 100, .45, BLACK)
 ]
+
+FIREBALL = {
+    "damage": 33,
+    "speed": 200,
+    "health": 150,
+    "upward_force": -50,
+    "image": fireball_sheet_image,
+    "image_offset": 220,
+    "walk_frames": fireball_walk_frames,
+    "character_melee_damage": 3,
+    "melee_cooldown": .5
+}
+THROWING_KNIFE = {
+    "damage": 10,
+    "speed": 600,
+    "health": 80,
+    "upward_force": -50,
+    "image": throwing_knife_sheet_image,
+    "image_offset": 40,
+    "walk_frames": knife_walk_frames,
+    "character_melee_damage": 24,
+    "melee_cooldown": .5
+}
+NAME_OF_THE_WIND = {
+    "damage": 100,
+    "speed": 1000,
+    "health": 100,
+    "upward_force": -20,
+    "image": name_of_the_wind_sheet_image,
+    "image_offset": 0,
+    "walk_frames": knife_walk_frames,
+    "character_melee_damage": 5,
+    "melee_cooldown": 8
+}
+THOR = {
+    "damage": 50,
+    "speed": 800,
+    "health": 200,
+    "upward_force": -20,
+    "image": thor_hammer_sheet_image,
+    "image_offset": 90,
+    "walk_frames": thor_walk_frames,
+    "character_melee_damage": 80,
+    "melee_cooldown": 10
+}
 
 player1_controls = {
     "left": pygame.K_a,
@@ -204,9 +219,26 @@ def handle_event(player, event, players):
 boundary_list = []
 
 map_create.create_map(boundary_list, MAP, block_types, arena)
+match player1_character:
+    case 'fireball':
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, FIREBALL)
+    case 'throwing_knife':
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THROWING_KNIFE)
+    case 'thor':
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THOR)
+    case 'name_of_the_wind':
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND)
 
-player1 = NewPlayer(245, GROUND_Y, knife_walk_frames, player1_controls, WIDTH, HEIGHT, THROWING_KNIFE)
-player2 = NewPlayer(400, GROUND_Y, fireball_walk_frames, player2_controls, WIDTH, HEIGHT, FIREBALL)
+match player2_character:
+    case 'fireball':
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, FIREBALL)
+    case 'throwing_knife':
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THROWING_KNIFE)
+    case 'thor':
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THOR)
+    case 'name_of_the_wind':
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND)
+
 
 players = []
 players.append(player1)
@@ -254,11 +286,13 @@ while running:
     if backgroundArt == 'on':
         match MAP:
             case 'map1':
-                screen.blit(medieval_down_background_image, (0, 0))
+                screen.blit(medieval_town_background_image, (0, 0))
             case 'map2':
                 screen.fill(BLACK)
             case 'map3':
-                screen.fill(WHITE)
+                screen.blit(bowl_of_milk_background_image, (0, 0))
+            case 'map4':
+                screen.blit(space_background_image, (0, 0))
     else:
         screen.fill(WHITE)
     
@@ -270,7 +304,7 @@ while running:
             screen.fill(BLACK)
 
     for player in players:
-        if player_utils.checkHealth(player, dt) == False:
+        if player_utils.checkHealth(player, dt, drop_in_height) == False:
             running = False
 
     #screen.blit(frame_standing, (0, 0))
