@@ -20,7 +20,7 @@ player2_character = 'throwing_knife'
 arena = False
 drop_in_height = 100
 
-MAP = 'map2'
+MAP = 'map4'
 
 MAP_LIST = {
     "map1": "town_hall",
@@ -217,7 +217,7 @@ def handle_event(player, event, players):
             player.hasMeleed = True
 
 boundary_list = []
-
+boundary_list.clear()
 map_create.create_map(boundary_list, MAP, block_types, arena)
 match player1_character:
     case 'fireball':

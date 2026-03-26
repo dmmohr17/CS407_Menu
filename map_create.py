@@ -35,7 +35,6 @@ def create_map(boundary_list, MAP, block_types, arena):
     
         case 'map2':
             image = block_types[0]
-            arena = True
 
         case 'map3':
             image = block_types[1]
@@ -49,7 +48,7 @@ def create_map(boundary_list, MAP, block_types, arena):
                 b = boundary.Boundary(375, 425 - 25 * i, image)
                 boundary_list.append(b)
         case 'map4':
-            image = block_types[2]
+            image = block_types[1]
             # layer 1
             for i in range(2):
                 b = boundary.Boundary(125 + 25 * i, 450, image)
@@ -114,7 +113,7 @@ def create_map(boundary_list, MAP, block_types, arena):
                 b = boundary.Boundary(200, 25, image)
                 boundary_list.append(b)
 
-    if arena == True:
+    if arena == True or MAP == 'map2':
         makeArena(boundary_list, MAP, image)
 
 
