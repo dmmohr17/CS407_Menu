@@ -20,7 +20,7 @@ player2_character = 'throwing_knife'
 arena = False
 drop_in_height = 100
 
-MAP = 'map4'
+MAP = 'map1'
 
 MAP_LIST = {
     "map1": "town_hall",
