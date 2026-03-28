@@ -9,6 +9,7 @@ class RevolvingQueue:
         self.scale_x = scale_const
         self.scale_y = scale_const
         self.corners = None
+        self.position = -1
 
     def draw(self, screen, sheared_surface, corners):
         screen.blit(self.surface, (self.x, self.y))
@@ -89,7 +90,7 @@ def shear_and_scale(image, SHEAR_X, SHEAR_Y, SCALE_INT):
 
     return scaled_sheared, scaled_corners
 
-def render_maps(screen, map_image_list, object_list, my_font):
+def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
     # Clear previous objects
     object_list.clear()
 
@@ -111,43 +112,56 @@ def render_maps(screen, map_image_list, object_list, my_font):
         (335, 220, 150, 0.15)   # idx 1
         
     ]
-
+    centerPosition = 0
     for idx, img in enumerate(image_list):
         if img is not None:
             x, y, scale, shear = object_positions[idx]
             sheared_surface, corners = shear_and_scale(img, 0, shear, scale)
             sheared_surface.set_colorkey((0, 0, 0))
+
             obj = RevolvingQueue(sheared_surface, x, y, scale)
             obj.corners = corners
-            # store both for drawing
             obj.sheared_surface = sheared_surface
             obj.corners_for_draw = corners
-            object_list.append(obj)
+
+            if object_positions[idx] == (162.5, 190, 175, 0):
+                centerObject = obj
+            else:
+                object_list.append(obj)
 
     # Draw each object using **both arguments** as required
-    for obj in object_list:
+    if len(object_list) == 2:
+        edgeCase = True
+    else:
+        edgeCase = False
+    while object_list:
+        if len(object_list) == 2:
+            secondObject = object_list[shiftDirection]
+        obj = object_list.pop(shiftDirection)
         obj.draw(screen, obj.sheared_surface, obj.corners_for_draw)
 
-    if len(object_list) > 4:
-        object_list[4].draw(screen, object_list[4].sheared_surface, object_list[4].corners_for_draw)
-    if len(object_list) > 3:
-        object_list[3].draw(screen, object_list[3].sheared_surface, object_list[3].corners_for_draw)
-    if len(object_list) > 2:
-        object_list[2].draw(screen, object_list[2].sheared_surface, object_list[2].corners_for_draw)
-
+        if object_list:
+            if len(object_list) == 2:
+                secondObject = object_list[-1 if shiftDirection == 0 else 0]
+            obj = object_list.pop(-1 if shiftDirection == 0 else 0)
+            obj.draw(screen, obj.sheared_surface, obj.corners_for_draw)
+    if edgeCase:
+        secondObject.draw(screen, secondObject.sheared_surface, secondObject.corners_for_draw)
+    centerObject.draw(screen, centerObject.sheared_surface, centerObject.corners_for_draw)
+    
     # Render text for the center object (idx 2) if it exists
     center_map = next((m for m in map_image_list if m["idx"] == 2), None)
     if center_map:
         text_surface = my_font.render(center_map["name"], True, (0, 0, 0))
         screen.blit(text_surface, (200, 375))
 
-def shift_right(map_image_list):
+def shift_left(map_image_list):
     if (map_image_list[0]["idx"] == 2):
         return
     for map in map_image_list:
         map["idx"] += 1
 
-def shift_left(map_image_list):
+def shift_right(map_image_list):
     if (map_image_list[4]["idx"] == 2):
         return
     for map in map_image_list:

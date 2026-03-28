@@ -12,15 +12,15 @@ pygame.init()
 # coin clip jpg is 1369p x 360p
 # add lives and character stats in corner
 
-devtools = 'on'
-healthbars = 'on'
+devtools = 'off'
+healthbars = 'off'
 backgroundArt = 'on'
 player1_character = 'fireball'
 player2_character = 'throwing_knife'
 arena = False
 drop_in_height = 100
 
-MAP = 'map1'
+MAP = 'map4'
 
 MAP_LIST = {
     "map1": "town_hall",
@@ -307,9 +307,8 @@ while running:
         if player_utils.checkHealth(player, dt, drop_in_height) == False:
             running = False
 
-    #screen.blit(frame_standing, (0, 0))
-    screen.blit(player1.image, player1.rect)
-    screen.blit(player2.image, player2.rect)
+    #screen.blit(player1.image, player1.rect)
+    #screen.blit(player2.image, player2.rect)
     for boundary in boundary_list:
         screen.blit(boundary.image, boundary.rect)
     for projectile in projectile_group:
