@@ -1,6 +1,7 @@
 This project has taken aproximately `30` hours.
 
 Current Usage:
-* [characterMovements](characterMovements.py) runs the game. This uses boundary, map_create, player, player_utils, projectile, and projectile_utils. I'm probably going to reorganize the files into subfolders -> one for menu, another for select character, select stage, and the game portion of it.
+* [characterMovements](gameplay/characterMovements.py) runs the game. Projectiles can be thrown with `1` and `p`. Melee is `2` and `o`. Dash uses `shift` keys and can only be done in the air. Standard WASD and arrow keys for player movement.
+  - DEV USAGE: `devtools` (either 'on' or 'off) controls hitboxes and screen color changes for projectile hits (and probably more later!). `arena` (bool) will encapsulate the map in an arena which cannot be fallen out of if True.
 
-* [revolvingQueue](revolvingQueue.py) is what runs the stage select. This uses revolvingQueue_utils.
+* [revolvingQueue](stage_select/revolvingQueue.py) runs the stage select.
