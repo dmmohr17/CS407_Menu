@@ -197,11 +197,15 @@ def displayCharacterStats(screen, font, COLOR, players):
         x_difference = x_difference + 200
     return
 
-def displayerCharacterLives(screen, font, WHITE, players):
+def displayerCharacterLives(screen, font, COLOR, players):
+    stats_rect = pygame.Rect(55, 470, 380, 33)
+    pygame.draw.rect(screen, (COLOR), stats_rect, 0)
+    pygame.draw.rect(screen, (0, 0, 0), stats_rect, 3) # outline
+    
     x_difference = 30
     for player in players:
         text_surface = font.render("Lives: " + str(player.lives), True, (0, 0, 0))
-        screen.blit(text_surface, (30 + x_difference, 20))
+        screen.blit(text_surface, (30 + x_difference, 480))
         x_difference = x_difference + 290
 
 
