@@ -4,7 +4,7 @@ import stage_select.revolvingQueue_utils
 from stage_select.pick_map_stage import PickMapStage
 from gameplay.gameplay_stage import GamePlayStage
 
-current_stage = PickMapStage()
+current_stage = PickMapStage(arena=True)
 running = True
 
 while running:

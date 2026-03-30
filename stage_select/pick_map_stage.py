@@ -4,8 +4,10 @@ import stage_select.revolvingQueue_utils
 from gameplay.gameplay_stage import GamePlayStage
 
 class PickMapStage:
-    def __init__(self):
+    def __init__(self, arena):
         pygame.init()
+
+        self.arena = arena
 
         self.WIDTH = 500
         self.HEIGHT = 500
@@ -72,7 +74,7 @@ class PickMapStage:
                     self.mostRecentDirection = 0
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
                     print("select")
-                    return GamePlayStage('fireball', 'throwing_knife', self.map_image_list[self.map_pointer_index]["name"], arena=False)
+                    return GamePlayStage('fireball', 'throwing_knife', self.map_image_list[self.map_pointer_index]["name"], self.arena)
 
         self.screen.fill(self.CREME)
 
