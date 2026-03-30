@@ -1,7 +1,7 @@
 import pygame
 
 class NewPlayer(pygame.sprite.Sprite):
-    def __init__(self, x, y, controls, WIDTH, HEIGHT, projectileType):
+    def __init__(self, x, y, controls, WIDTH, HEIGHT, projectileType, ENV):
         super().__init__()
         self.walk_frame = projectileType["walk_frames"]
         self.walk_frame_index = 0
@@ -56,7 +56,7 @@ class NewPlayer(pygame.sprite.Sprite):
         current_width = int(self.healthbar.width * health_ratio)
         current_bar = pygame.Rect(self.healthbar.x, self.healthbar.y, current_width, self.healthbar.height)
 
-        self.lives = 3
+        self.lives = ENV["player_lives"]
 
         self.alive = True
         

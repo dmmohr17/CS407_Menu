@@ -29,11 +29,7 @@ space_background_image = pygame.image.load('image_reference/background/space_bac
 object_list = []
 scaled_sheared_list = []
 
-#for i in range(5):
-
-currentMap = 'map1'
-
-#store maps and current positions. Shift left will subtract 1, shift right will add 1. Only 1-5 will be rendered
+# store maps and current positions. Shift left will subtract 1, shift right will add 1. Only 1-5 will be rendered
 map_image_list = [
     {"name": "Town Hall", "idx": 0, "image": medieval_town_background_image},
     {"name": "Arena", "idx": 1, "image": arena_background_image},
@@ -42,6 +38,7 @@ map_image_list = [
     {"name": "map5", "idx": 4, "image": medieval_town_background_image}
 ]
 
+# track most recent direction for blit order
 mostRecentDirection = -1
 
 running = True

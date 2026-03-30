@@ -12,15 +12,28 @@ pygame.init()
 # coin clip jpg is 1369p x 360p
 # add lives and character stats in corner
 
-devtools = 'on'
-healthbars = 'on'
-backgroundArt = 'on'
+
+ENV = {
+    "STAGE": 'gamePlay',
+    "displayCharacterStats": 'off',
+    "devtools": 'on',
+    "healthbars": 'on',
+    "backgroundArt": 'on',
+    "arena": False,
+    "player_lives": 3
+}
+
+
 player1_character = 'fireball'
 player2_character = 'throwing_knife'
-arena = False
+
 drop_in_height = 100
 
-MAP = 'map4'
+character_stats_font = pygame.font.SysFont('Veranda', 20)
+character_lives_font = pygame.font.SysFont('Veranda', 30)
+game_over_font = pygame.font.SysFont('Veranda', 50)
+
+MAP = 'map1'
 
 MAP_LIST = {
     "map1": "town_hall",
@@ -186,58 +199,28 @@ player2_controls = {
     "melee": pygame.K_o
 }
 
-def handle_event(player, event, players):
-    if event.type == pygame.KEYDOWN:
-        current_time = pygame.time.get_ticks() / 1000  # seconds
-
-        if event.key == player.controls["jump"] and player.isOnGround:
-            player.velocity_y = JUMP_STRENGTH
-            player.isOnGround = False
-            player.canDash = True
-
-        if event.key == player.controls["dash"] and not player.isOnGround and player.canDash:
-            player.dash = True
-            player.dashTime = player.dashDuration
-            player.canDash = False
-
-            if player.mostRecentXDirection == 'Right':
-                player.velocity_x = player.dashSpeed
-            else:
-                player.velocity_x = -player.dashSpeed
-        
-        if event.key == player.controls["throw"] and not player.hasThrown and player.canDash:
-            
-            p = NewProjectile(player.rect.x, player.rect.y, player.mostRecentXDirection, player.projectileType)
-            projectile_group.append(p)
-            player.projectiles.append(p)
-            player.hasThrown = True
-        
-        if event.key == player.controls["melee"]:
-            print("melee")
-            player.hasMeleed = True
-
 boundary_list = []
 boundary_list.clear()
-map_create.create_map(boundary_list, MAP, block_types, arena)
+map_create.create_map(boundary_list, MAP, block_types, ENV["arena"])
 match player1_character:
     case 'fireball':
-        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, FIREBALL)
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, FIREBALL, ENV)
     case 'throwing_knife':
-        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THROWING_KNIFE)
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THROWING_KNIFE, ENV)
     case 'thor':
-        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THOR)
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, THOR, ENV)
     case 'name_of_the_wind':
-        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND)
+        player1 = NewPlayer(150, drop_in_height, player1_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND, ENV)
 
 match player2_character:
     case 'fireball':
-        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, FIREBALL)
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, FIREBALL, ENV)
     case 'throwing_knife':
-        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THROWING_KNIFE)
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THROWING_KNIFE, ENV)
     case 'thor':
-        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THOR)
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, THOR, ENV)
     case 'name_of_the_wind':
-        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND)
+        player2 = NewPlayer(350, drop_in_height, player2_controls, WIDTH, HEIGHT, NAME_OF_THE_WIND, ENV)
 
 
 players = []
@@ -257,89 +240,110 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
                 running = False
+            if event.key == pygame.K_r and ENV["STAGE"] == 'gameOver':
+                ENV["STAGE"] = 'gamePlay'
+                # need a helper function to reset characters and ENV
 
-        handle_event(player1, event, players)
-        handle_event(player2, event, players)
+        if ENV["STAGE"] == 'gamePlay':
+            player_utils.handle_event(event, players, ENV, projectile_group)
 
     keys = pygame.key.get_pressed()
 
-    player_utils.handle_player(player1, keys, dt)
-    player_utils.handle_player(player2, keys, dt)
-    
-    for player in players:
-        for p in player.projectiles[:]:
-            if p.rect.bottom >= GROUND_Y:
-                player.projectiles.remove(p)
-                projectile_group.remove(p)
-                player.hasThrown = False
-        if player.hasMeleed == True:
-            player_utils.meleeAttack(player, players)
-            player.hasMeleed = False
+    if ENV["STAGE"] == 'gamePlay':
         
-    for projectile in projectile_group[:]:
-        if projectile.rect.bottom >= GROUND_Y:
-            projectile_group.remove(projectile)
+        player_utils.handle_player(player1, keys, dt)
+        player_utils.handle_player(player2, keys, dt)
+        
+        for player in players:
+            for p in player.projectiles[:]:
+                if p.rect.bottom >= GROUND_Y:
+                    player.projectiles.remove(p)
+                    projectile_group.remove(p)
+                    player.hasThrown = False
+            if player.hasMeleed == True:
+                player_utils.meleeAttack(player, players)
+                player.hasMeleed = False
+            
+        for projectile in projectile_group[:]:
+            if projectile.rect.bottom >= GROUND_Y:
+                projectile_group.remove(projectile)
 
-    player_utils.apply_physics(player1, boundary_list, dt)
-    player_utils.apply_physics(player2, boundary_list, dt)
-    
-    if backgroundArt == 'on':
-        match MAP:
-            case 'map1':
-                screen.blit(medieval_town_background_image, (0, 0))
-            case 'map2':
-                screen.blit(space_background_image, (0, 0))
-            case 'map3':
-                screen.blit(bowl_of_milk_background_image, (0, 0))
-            case 'map4':
-                screen.blit(space_background_image, (0, 0))
-    else:
-        screen.fill(WHITE)
-    
-    for projectile in projectile_group:
-        projectile.update(dt)
-    
-    for projectile in projectile_group:
-        if projectile_utils.checkCollision(projectile, players) == True and devtools == 'on':
-            screen.fill(BLACK)
-
-    for player in players:
-        if player_utils.checkHealth(player, dt, drop_in_height) == False:
-            running = False
-
-    screen.blit(player1.image, player1.rect)
-    screen.blit(player2.image, player2.rect)
-    for boundary in boundary_list:
-        screen.blit(boundary.image, boundary.rect)
-    for projectile in projectile_group:
-        screen.blit(projectile.image, projectile.rect)
-    if devtools == 'on':
-        #print(player1.hitbox)
-        pygame.draw.rect(screen, (255,0,0), player1.hitbox, 2)
-        pygame.draw.rect(screen, (255,0,0), player2.hitbox, 2)
-    if healthbars == 'on':
-        #print(player1.healthbar)
-        player_utils.drawHealthbar(player1, screen)
-        player_utils.drawHealthbar(player2, screen)
-    
-    current_time = pygame.time.get_ticks() / 1000
-
-    for player in players:
-        if current_time - player.crit_start_time > player.crit_duration:
-            player.displayCrit = False
+        player_utils.apply_physics(player1, boundary_list, dt)
+        player_utils.apply_physics(player2, boundary_list, dt)
+        
+        if ENV["backgroundArt"] == 'on':
+            match MAP:
+                case 'map1':
+                    screen.blit(medieval_town_background_image, (0, 0))
+                case 'map2':
+                    screen.blit(space_background_image, (0, 0))
+                case 'map3':
+                    screen.blit(bowl_of_milk_background_image, (0, 0))
+                case 'map4':
+                    screen.blit(space_background_image, (0, 0))
         else:
-            # scale the image
-            small_crit = pygame.transform.scale(crit_sheet_image, 
-                                                (crit_sheet_image.get_width() // 10, 
-                                                crit_sheet_image.get_height() // 10))
+            screen.fill(WHITE)
+        
+        for projectile in projectile_group:
+            projectile.update(dt)
+        
+        for projectile in projectile_group:
+            if projectile_utils.checkCollision(projectile, players) == True and ENV["devtools"] == 'on':
+                screen.fill(BLACK)
 
-            # calculate position above the player
-            x = player.hitbox.centerx - small_crit.get_width() // 2
-            y = player.hitbox.top - small_crit.get_height() + 10
+        for player in players:
+            if player_utils.checkHealth(player, dt, drop_in_height) == False:
+                ENV["STAGE"] = 'gameOver'
 
-            # draw it
-            screen.blit(small_crit, (x, y))
-            print("crit")
+        screen.blit(player1.image, player1.rect)
+        screen.blit(player2.image, player2.rect)
+        for boundary in boundary_list:
+            screen.blit(boundary.image, boundary.rect)
+        for projectile in projectile_group:
+            screen.blit(projectile.image, projectile.rect)
+        if ENV["devtools"] == 'on':
+            #print(player1.hitbox)
+            pygame.draw.rect(screen, (255,0,0), player1.hitbox, 2)
+            pygame.draw.rect(screen, (255,0,0), player2.hitbox, 2)
+        if ENV["healthbars"] == 'on':
+            #print(player1.healthbar)
+            player_utils.drawHealthbar(player1, screen)
+            player_utils.drawHealthbar(player2, screen)
+        
+        current_time = pygame.time.get_ticks() / 1000
+
+        for player in players:
+            if current_time - player.crit_start_time > player.crit_duration:
+                player.displayCrit = False
+            else:
+                # scale the image
+                small_crit = pygame.transform.scale(crit_sheet_image, 
+                                                    (crit_sheet_image.get_width() // 10, 
+                                                    crit_sheet_image.get_height() // 10))
+
+                # calculate position above the player
+                x = player.hitbox.centerx - small_crit.get_width() // 2
+                y = player.hitbox.top - small_crit.get_height() + 10
+
+                # draw it
+                screen.blit(small_crit, (x, y))
+                print("crit")
+        if ENV["displayCharacterStats"] == 'on':
+            player_utils.displayCharacterStats(screen, character_stats_font, WHITE, players)
+        player_utils.displayerCharacterLives(screen, character_lives_font, WHITE, players)
+
+    if ENV["STAGE"] == 'gameOver':
+        screen.fill(WHITE)
+        game_over_font
+        winner = 0
+        for idx, player in enumerate(players):
+            if player.lives != 0:
+                winner = idx + 1
+        text_surface = game_over_font.render("Game Over: Player " + str(winner) + " Wins!", True, (0, 0, 0))
+        screen.blit(text_surface, (30, 150))
+        text_surface = game_over_font.render("('r' to restart)", True, (0, 0, 0))
+        screen.blit(text_surface, (150, 200))
+
     pygame.display.flip()
 
 pygame.quit()
