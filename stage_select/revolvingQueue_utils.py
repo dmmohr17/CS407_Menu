@@ -105,11 +105,11 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
 
     # Object positions and shear values
     object_positions = [
-        (40, 220, 150, -0.15),   # idx 0
+        (40, 220, 125, -0.18),   # idx 0
         (80, 200, 150, -0.1),    # idx 2
         (162.5, 190, 175, 0),     # idx 4
         (270, 200, 150, 0.1),    # idx 3
-        (335, 220, 150, 0.15)   # idx 1
+        (335, 220, 125, 0.18)   # idx 1
         
     ]
     centerPosition = 0
