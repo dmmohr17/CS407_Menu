@@ -8,7 +8,7 @@ FRICTION = 1200
 MAX_SPEED = 400
 MAX_DASH_SPEED = 700
 JUMP_STRENGTH = -500
-GROUND_Y = 450
+GROUND_Y = 475
 KNIFE_THROWING_VELOCITY = 2000
 FIREBALL_THROWING_VELOCITY = 1000
 
@@ -31,7 +31,7 @@ def handle_event(event, players, ENV, projectile_group):
                 else:
                     player.velocity_x = -player.dashSpeed
             
-            if event.key == player.controls["throw"] and not player.hasThrown and player.canDash:
+            if event.key == player.controls["throw"] and player.canDash:
                 
                 p = NewProjectile(player.rect.x, player.rect.y, player.mostRecentXDirection, player.projectileType)
                 projectile_group.append(p)

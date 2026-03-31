@@ -183,7 +183,7 @@ class GamePlayStage:
             self.JUMP_STRENGTH = -750
         else:
             self.JUMP_STRENGTH = -500
-        self.GROUND_Y = 450
+        self.GROUND_Y = 475
         self.KNIFE_THROWING_VELOCITY = 2000
         self.FIREBALL_THROWING_VELOCITY = 1000
         self.THROWING_KNIFE_DAMAGE = 10
@@ -226,6 +226,7 @@ class GamePlayStage:
                 if p.rect.bottom >= self.GROUND_Y:
                     self.projectile_group.remove(p)
                     player.hasThrown = False
+                    print("hasthrown = false")
             if player.hasMeleed == True:
                 gameplay.player_utils.meleeAttack(player, self.players)
                 player.hasMeleed = False
@@ -311,6 +312,8 @@ class GamePlayStage:
                 self.screen.blit(self.bowl_of_milk_background_image, (0, 0))
             case 'Starry Space':
                 self.screen.blit(self.space_background_image, (0, 0))
+            case 'map5':
+                self.screen.blit(self.medieval_town_background_image, (0, 0))
 
     def reset(self):
         self.boundary_list.clear()
