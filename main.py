@@ -18,7 +18,8 @@ def create_stage(stage_name, data):
         return GameOverStage(**data)
     
 
-current_stage = BootStrapStage()
+#current_stage = BootStrapStage()
+current_stage = GamePlayStage('fireball', 'throwing_knife', 'Starry Space', arena=False, lives=3)
 
 running = True
 

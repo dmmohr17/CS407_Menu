@@ -14,7 +14,7 @@ class GamePlayStage:
 
         self.ENV = {
             "STAGE": 'gamePlay',
-            "devtools": 'on',
+            "devtools": 'off',
             "healthbars": 'on',
             "backgroundArt": 'on',
             "player_lives": lives,
@@ -231,7 +231,7 @@ class GamePlayStage:
                     print("hasthrown = false")
             if player.hasMeleed == True:
                 gameplay.player_utils.meleeAttack(player, self.players)
-                player.hasMeleed = False
+                #player.hasMeleed = False
             
             for projectile in self.projectile_group[:]:
                 if projectile.rect.bottom >= self.GROUND_Y:
@@ -299,6 +299,29 @@ class GamePlayStage:
                 # draw it
                 self.screen.blit(small_crit, (x, y))
                 print("crit")
+        for player in self.players:
+            if player.hasMeleed:
+                # scale up the knife (e.g., 2x the original size)
+                knife = pygame.transform.scale(
+                    self.throwing_knife_sheet_image,
+                    (self.throwing_knife_sheet_image.get_width() // 15,
+                    self.throwing_knife_sheet_image.get_height() // 15)
+                )
+
+                # calculate position above the player
+                if player.mostRecentXDirection == 'Left':
+                    x = player.hitbox.centerx - knife.get_width() // 2 - 5
+                else:
+                    x = player.hitbox.centerx - 15
+                y = player.hitbox.top - knife.get_height() + 30
+
+                # draw the knife
+                if player.mostRecentXDirection == 'Left':
+                    flippedKnife = pygame.transform.flip(knife, True, False)
+                    self.screen.blit(flippedKnife, (x, y))
+                else:
+                    self.screen.blit(knife, (x, y))
+                player.hasMeleed = False
         
         if self.ENV.get("displayCharacterStats") == 'on':
             gameplay.player_utils.displayCharacterStats(self.screen, self.character_stats_font, self.WHITE, self.players)
