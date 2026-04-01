@@ -6,10 +6,3 @@
 
 **Stage Changing**:
 `current_stage` determines which stage is running. Between stages 1-4, `current_stage` should be updated via a return in the class stage (see [gameplay_stage](gameplay/gameplay_stage.py) and [pick_map_stage](map_select/pick_map_stage.py) for examples).
-
-*TODO*:
-- start page
-- character select page
-- fourth character animation
-
-This project has taken aproximately `39` hours.
