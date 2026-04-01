@@ -9,8 +9,8 @@
 
 *TODO*:
 - start page
-- game over page
-- fourth characrer animation
+- character select page
+- fourth character animation
 - melee animation
 
-This project has taken aproximately `37` hours.
+This project has taken aproximately `38` hours.
