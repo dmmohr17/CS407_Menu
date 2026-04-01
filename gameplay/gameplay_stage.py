@@ -6,6 +6,7 @@ import gameplay.boundary
 import gameplay.map_create
 from gameplay.projectile import NewProjectile
 from gameplay.player import NewPlayer
+from game_over.game_over_stage import GameOverStage
 
 class GamePlayStage:
     def __init__(self, player1_character, player2_character, MAP, arena):
@@ -246,15 +247,16 @@ class GamePlayStage:
                 if gameplay.projectile_utils.checkCollision(projectile, self.players) == True and self.ENV["devtools"] == 'on':
                     self.screen.fill(self.BLACK)
 
-        for player in self.players:
+        for idx, player in enumerate(self.players):
             if gameplay.player_utils.checkHealth(player, dt, self.drop_in_height) == False:
                 self.ENV["STAGE"] = 'gameOver'
                 print("gg")
+                return ("GAME_OVER", {"winner": (idx + 1) % 2})
                 exit()
        
         self.draw()
         pygame.display.flip()
-        return self
+        return None
 
     def draw(self):
         if self.ENV["backgroundArt"] == 'on':
