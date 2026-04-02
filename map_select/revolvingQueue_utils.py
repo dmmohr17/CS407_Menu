@@ -105,11 +105,17 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
 
     # Object positions and shear values
     object_positions = [
-        (40, 220, 125, -0.18),   # idx 0
-        (80, 200, 150, -0.1),    # idx 2
-        (162.5, 190, 175, 0),     # idx 4
-        (270, 200, 150, 0.1),    # idx 3
-        (335, 220, 125, 0.18)   # idx 1
+        #(40, 220, 125, -0.18),   # idx 0
+        #(80, 200, 150, -0.1),    # idx 2
+        #(162.5, 190, 175, 0),     # idx 4
+        #(270, 200, 150, 0.1),    # idx 3
+        #(335, 220, 125, 0.18)   # idx 1
+
+        (190, 220, 125, -0.18),   # idx 0
+        (230, 200, 150, -0.1),  # idx 2
+        (312.5, 190, 175, 0),       # idx 4
+        (420, 200, 150, 0.1),   # idx 3
+        (485, 220, 125, 0.18)   # idx 1
         
     ]
     centerPosition = 0
@@ -124,7 +130,8 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
             obj.sheared_surface = sheared_surface
             obj.corners_for_draw = corners
 
-            if object_positions[idx] == (162.5, 190, 175, 0):
+            #if object_positions[idx] == (162.5, 190, 175, 0):
+            if object_positions[idx] == (312.5, 190, 175, 0): # adjusted
                 centerObject = obj
             else:
                 object_list.append(obj)

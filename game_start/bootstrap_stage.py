@@ -9,7 +9,7 @@ class BootStrapStage:
 
         self.selectedIdx = 0
 
-        self.WIDTH = 500
+        self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)

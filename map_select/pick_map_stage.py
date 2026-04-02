@@ -10,7 +10,7 @@ class PickMapStage:
         self.arena = arena
         self.lives = lives
 
-        self.WIDTH = 500
+        self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
@@ -86,7 +86,14 @@ class PickMapStage:
         self.screen.fill(self.CREME)
 
         text_surface = self.my_font.render("Select a Map", True, (0, 0, 0))
-        self.screen.blit(text_surface, (190, 100))
+
+        # added to center text
+        text_width = text_surface.get_width()
+        x_position = (self.WIDTH - text_width) // 2
+        self.screen.blit(text_surface, (x_position, 100))
+        
+        # original
+        # self.screen.blit(text_surface, (190, 100))
         
         map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.my_font, self.mostRecentDirection)
 
