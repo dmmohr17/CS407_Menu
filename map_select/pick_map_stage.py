@@ -19,7 +19,8 @@ class PickMapStage:
         self.SHEAR_Y = 0.1
         self.SCALE_INT = 150
 
-        self.my_font = pygame.font.SysFont('Veranda', 30)
+        self.my_font = pygame.font.SysFont('Veranda', 60)
+        self.stage_font = pygame.font.SysFont('Veranda', 30)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Pick Arena")
@@ -90,12 +91,12 @@ class PickMapStage:
         # added to center text
         text_width = text_surface.get_width()
         x_position = (self.WIDTH - text_width) // 2
-        self.screen.blit(text_surface, (x_position, 100))
+        self.screen.blit(text_surface, (x_position, 40))
         
         # original
         # self.screen.blit(text_surface, (190, 100))
         
-        map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.my_font, self.mostRecentDirection)
+        map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.stage_font, self.mostRecentDirection)
 
         pygame.display.flip()
     

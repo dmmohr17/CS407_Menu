@@ -111,11 +111,11 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
         #(270, 200, 150, 0.1),    # idx 3
         #(335, 220, 125, 0.18)   # idx 1
 
-        (190, 220, 125, -0.18),   # idx 0
-        (230, 200, 150, -0.1),  # idx 2
-        (312.5, 190, 175, 0),       # idx 4
-        (420, 200, 150, 0.1),   # idx 3
-        (485, 220, 125, 0.18)   # idx 1
+        (130, 130, 250, -0.18),   # idx 0
+        (170, 110, 275, -0.1),  # idx 2
+        (250, 100, 300, 0),       # idx 4
+        (330, 110, 275, 0.1),   # idx 3
+        (380, 130, 250, 0.18)   # idx 1
         
     ]
     centerPosition = 0
@@ -131,7 +131,7 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
             obj.corners_for_draw = corners
 
             #if object_positions[idx] == (162.5, 190, 175, 0):
-            if object_positions[idx] == (312.5, 190, 175, 0): # adjusted
+            if object_positions[idx] == (250, 100, 300, 0): # adjusted
                 centerObject = obj
             else:
                 object_list.append(obj)
@@ -160,7 +160,7 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
     center_map = next((m for m in map_image_list if m["idx"] == 2), None)
     if center_map:
         text_surface = my_font.render(center_map["name"], True, (0, 0, 0))
-        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, 390))
+        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, 425))
         screen.blit(text_surface, text_rect)
         #screen.blit(text_surface, (200, 375))
 
