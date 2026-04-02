@@ -23,7 +23,7 @@ pygame.display.set_caption("Pick Arena")
 
 medieval_town_background_image = pygame.image.load('image_reference/map_select/medieval_town_map.png').convert_alpha()
 arena_background_image = pygame.image.load('image_reference/map_select/arena_map.png').convert_alpha()
-milk_map_background_image = pygame.image.load('image_reference/map_select/milk_map.png').convert_alpha()
+bdenny_map_background_image = pygame.image.load('image_reference/background/bdenny.jpg').convert_alpha()
 space_map_background_image = pygame.image.load('image_reference/map_select/space_map.png').convert_alpha()
 space_background_image = pygame.image.load('image_reference/background/space_background.jpg').convert_alpha()
 
@@ -34,7 +34,7 @@ scaled_sheared_list = []
 map_image_list = [
     {"name": "Town Hall", "idx": 0, "image": medieval_town_background_image},
     {"name": "Arena", "idx": 1, "image": arena_background_image},
-    {"name": "Bowl of Milk", "idx": 2, "image": milk_map_background_image},
+    {"name": "Bryant-Denny Stadium", "idx": 2, "image": bdenny_map_background_image},
     {"name": "Starry Space", "idx": 3, "image": space_map_background_image},
     {"name": "Doodle", "idx": 4, "image": medieval_town_background_image}
 ]
