@@ -24,7 +24,7 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/al.png"),
             pygame.image.load("image_reference/chars/nick.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/forrest.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
@@ -45,6 +45,20 @@ class PickCharactersStage:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     exit()
+
+                rows = 3
+                cols = 4
+                row = self.selectedIdx // cols
+                col = self.selectedIdx % cols
+                if event.key == pygame.K_RIGHT:
+                    col = (col + 1) % cols
+                elif event.key == pygame.K_LEFT:
+                    col = (col - 1 + cols) % cols
+                elif event.key == pygame.K_DOWN:
+                    row = (row + 1) % rows
+                elif event.key == pygame.K_UP:
+                    row = (row - 1 + rows) % rows
+                self.selectedIdx = row * cols + col
                 
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
                     return ("PICK_MAP", {"arena": self.arena, "lives": self.lives})
@@ -93,6 +107,10 @@ class PickCharactersStage:
 
             self.screen.blit(scaled_img, (x, y))
             pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+
+            # highlight if selected box
+            if i == self.selectedIdx:
+                pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)
 
 
         pygame.display.flip()
