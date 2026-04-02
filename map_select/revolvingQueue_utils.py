@@ -160,7 +160,9 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
     center_map = next((m for m in map_image_list if m["idx"] == 2), None)
     if center_map:
         text_surface = my_font.render(center_map["name"], True, (0, 0, 0))
-        screen.blit(text_surface, (200, 375))
+        text_rect = text_surface.get_rect(center=(screen.get_width() // 2, 390))
+        screen.blit(text_surface, text_rect)
+        #screen.blit(text_surface, (200, 375))
 
 def shift_left(map_image_list):
     if (map_image_list[0]["idx"] == 2):

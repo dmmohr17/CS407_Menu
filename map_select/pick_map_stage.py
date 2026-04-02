@@ -36,19 +36,19 @@ class PickMapStage:
 
         self.medieval_town_background_image = pygame.image.load('image_reference/stage_select/medieval_town_map.png').convert_alpha()
         self.arena_background_image = pygame.image.load('image_reference/stage_select/arena_map.png').convert_alpha()
-        self.milk_map_background_image = pygame.image.load('image_reference/stage_select/milk_map.png').convert_alpha()
+        self.bdenny_map_background_image = pygame.image.load('image_reference/background/bdenny.jpg').convert_alpha()
         self.space_map_background_image = pygame.image.load('image_reference/stage_select/space_map.png').convert_alpha()
-        self.doodle_map_background_image = pygame.image.load('image_reference/background/doodle_map.png').convert_alpha()
+        self.rounders_map_background_image = pygame.image.load('image_reference/background/rounders.jpg').convert_alpha()
 
         self.map_image_list = [
             {"name": "Town Hall", "idx": 0, "image": self.medieval_town_background_image},
             {"name": "Arena", "idx": 1, "image": self.arena_background_image},
-            {"name": "Bowl of Milk", "idx": 2, "image": self.milk_map_background_image},
+            {"name": "Bryant-Denny Stadium", "idx": 2, "image": self.bdenny_map_background_image},
             {"name": "Starry Space", "idx": 3, "image": self.space_map_background_image},
-            {"name": "Doodle", "idx": 4, "image": self.doodle_map_background_image}
+            {"name": "Rounders", "idx": 4, "image": self.rounders_map_background_image}
         ]
         self.map_pointer_index = next(
-            (i for i, m in enumerate(self.map_image_list) if m["name"] == "Bowl of Milk"),
+            (i for i, m in enumerate(self.map_image_list) if m["name"] == "Bryant-Denny Stadium"),
             None
         )
         return
