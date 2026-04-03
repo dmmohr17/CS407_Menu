@@ -51,15 +51,15 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/jc_prev.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al_prev.jpg"),
+            pygame.image.load("image_reference/chars/nick_prev.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/nacho_prev.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg")
         ]
 
         self.game_over_font = pygame.font.SysFont('Veranda', 30)
@@ -184,9 +184,16 @@ class PickCharactersStage:
         
         name = self.character_names[self.selectedIdx]
         name_surface = self.game_over_font.render(name, True, self.BLACK)
-
-        self.screen.blit(name_surface, (left_x, left_y + 310))
-        self.screen.blit(name_surface, (right_x, right_y + 310))
+        name_rect_left = name_surface.get_rect(center=(
+            left_x + (preview_width // 2),
+            left_y + preview_height + 20
+        ))
+        name_rect_right = name_surface.get_rect(center=(
+            right_x + (preview_width // 2),
+            right_y + preview_height + 20
+        ))
+        self.screen.blit(name_surface, name_rect_left)
+        self.screen.blit(name_surface, name_rect_right)
 
         pygame.display.flip()
     
