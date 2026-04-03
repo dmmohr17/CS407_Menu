@@ -15,6 +15,7 @@ class PickCharactersStage:
         self.CREME = (255, 255, 220)
         self.BLACK = (0, 0, 0)
 
+        # character icons on select grid
         self.character_images = [
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/kalen.png"),
@@ -27,11 +28,47 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/forrest.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/nacho.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg")
+        ]
+
+        self.character_names = [
+            "Stock", 
+            "Kalen DeBoer", 
+            "Stock", 
+            "Jeff Carver", 
+            "Stock", 
+            "Big Al", 
+            "Nick Saban", 
+            "Stock", 
+            "Forrest Gump", 
+            "Stock", 
+            "Nacho Alabamo", 
+            "Stock"
+        ]
+
+        # pictures for characters when hovered over
+        self.character_preview = [
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/al_prev.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
         ]
 
         self.game_over_font = pygame.font.SysFont('Veranda', 30)
         self.arena_message_font = pygame.font.SysFont('Veranda', 50)
+
+        self.player1_font = pygame.font.SysFont('Veranda', 30)
+        self.player2_font = pygame.font.SysFont('Veranda', 30)
+        self.BLUE = (0, 0, 255)
+        self.RED = (255, 0, 0)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Welcome, Players!")
@@ -75,6 +112,12 @@ class PickCharactersStage:
         x_position = (self.WIDTH - text_width) // 2
         self.screen.blit(text_surface, (x_position, 40))
 
+        # text for players 1 & 2
+        player1_text = self.player1_font.render("Player 1", True, self.BLUE)
+        player2_text = self.player2_font.render("Player 2", True, self.RED)
+        self.screen.blit(player1_text, (50, 50))
+        self.screen.blit(player2_text, (self.WIDTH - 135, 50))
+
         # self.screen.blit(text_surface, (190, 450))
 
         # to draw character select grid
@@ -93,6 +136,7 @@ class PickCharactersStage:
         total_grid_width = cols * box_size + (cols + 1) * padding
         start_x = (self.WIDTH - total_grid_width) // 2
 
+        # animate grid
         for i in range(rows * cols):
             row = i // cols
             col = i % cols
@@ -112,6 +156,37 @@ class PickCharactersStage:
             if i == self.selectedIdx:
                 pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)
 
+        # character preview
+        selected_char = self.character_preview[self.selectedIdx]
+
+        preview_width = 150
+        preview_height = 300
+        preview_pic = pygame.transform.scale(selected_char, (preview_width, preview_height))
+
+        left_x = 15
+        left_y = ((self.HEIGHT - preview_height) // 2) - 20
+        self.screen.blit(preview_pic, (left_x, left_y))
+        
+        # need to add code for right preview later, for now just mirror player 1
+        right_x = self.WIDTH - preview_width - 15
+        right_y = ((self.HEIGHT - preview_height) // 2) - 20
+        flip = pygame.transform.flip(preview_pic, True, False)
+        self.screen.blit(flip, (right_x, right_y))
+
+        panel_padding = 3
+        pygame.draw.rect(self.screen, self.BLACK,
+            (left_x - panel_padding, left_y - panel_padding,
+            preview_width + panel_padding*2, preview_height + panel_padding*2), 2)
+
+        pygame.draw.rect(self.screen, self.BLACK,
+            (right_x - panel_padding, right_y - panel_padding,
+            preview_width + panel_padding*2, preview_height + panel_padding*2), 2)
+        
+        name = self.character_names[self.selectedIdx]
+        name_surface = self.game_over_font.render(name, True, self.BLACK)
+
+        self.screen.blit(name_surface, (left_x, left_y + 310))
+        self.screen.blit(name_surface, (right_x, right_y + 310))
 
         pygame.display.flip()
     
