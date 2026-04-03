@@ -17,16 +17,16 @@ class PickCharactersStage:
 
         self.character_images = [
             pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/kalen.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/jc.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al.png"),
             pygame.image.load("image_reference/chars/nick.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/forrest.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/nacho.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
         ]
 
