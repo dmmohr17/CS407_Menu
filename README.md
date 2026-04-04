@@ -15,3 +15,4 @@
 * Add ability to backtrack through pages
 * Add "more details" popup menu to character select
 * Polish all screens - colors, text, etc.
+* need to add alt colors + previews
