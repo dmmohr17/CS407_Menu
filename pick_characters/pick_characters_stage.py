@@ -19,7 +19,7 @@ class PickCharactersStage:
         self.character_images = [
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/kalen.png"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/ref.jpg"),
             pygame.image.load("image_reference/chars/jc.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al.png"),
@@ -28,13 +28,13 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/forrest.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/nacho.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg")
+            pygame.image.load("image_reference/chars/alex.jpg")
         ]
 
         self.character_names = [
             "Stock", 
             "Kalen DeBoer", 
-            "Stock", 
+            "Corrupt Ref", 
             "Jeff Carver", 
             "Stock", 
             "Big Al", 
@@ -43,14 +43,14 @@ class PickCharactersStage:
             "Forrest Gump", 
             "Stock", 
             "Nacho Alabamo", 
-            "Stock"
+            "Alex Shunnarah"
         ]
 
         # pictures for characters when hovered over
         self.character_preview = [
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/ref_prev.jpg"),
             pygame.image.load("image_reference/chars/jc_prev.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al_prev.jpg"),
@@ -59,7 +59,7 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/nacho_prev.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg")
+            pygame.image.load("image_reference/chars/alex_prev.png")
         ]
 
         self.game_over_font = pygame.font.SysFont('Veranda', 30)
@@ -152,9 +152,9 @@ class PickCharactersStage:
             self.screen.blit(scaled_img, (x, y))
             pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
-            # highlight if selected box
+            # highlight if selected box - have player 2 box be red later
             if i == self.selectedIdx:
-                pygame.draw.rect(self.screen, (255, 0, 0), rect, 3)
+                pygame.draw.rect(self.screen, self.BLUE, rect, 3)
 
         # character preview
         selected_char = self.character_preview[self.selectedIdx]
