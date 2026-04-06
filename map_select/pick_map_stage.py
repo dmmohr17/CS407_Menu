@@ -38,15 +38,15 @@ class PickMapStage:
     
     def load_assets(self):
 
-        self.medieval_town_background_image = pygame.image.load('image_reference/stage_select/medieval_town_map.png').convert_alpha()
-        self.arena_background_image = pygame.image.load('image_reference/stage_select/arena_map.png').convert_alpha()
+        self.waffle_background_image = pygame.image.load('image_reference/background/waffle.jpg').convert_alpha()
+        self.shelby_background_image = pygame.image.load('image_reference/background/shelby.jpg').convert_alpha()
         self.bdenny_map_background_image = pygame.image.load('image_reference/background/bdenny.jpg').convert_alpha()
         self.quad_map_background_image = pygame.image.load('image_reference/stage_select/quad.png').convert_alpha()
         self.rounders_map_background_image = pygame.image.load('image_reference/background/rounders.jpg').convert_alpha()
 
         self.map_image_list = [
-            {"name": "Town Hall", "idx": 0, "image": self.medieval_town_background_image},
-            {"name": "Arena", "idx": 1, "image": self.arena_background_image},
+            {"name": "Waffle House", "idx": 0, "image": self.waffle_background_image},
+            {"name": "Shelby Hall", "idx": 1, "image": self.shelby_background_image},
             {"name": "Bryant-Denny Stadium", "idx": 2, "image": self.bdenny_map_background_image},
             {"name": "The Quad ", "idx": 3, "image": self.quad_map_background_image},
             {"name": "Rounders", "idx": 4, "image": self.rounders_map_background_image}

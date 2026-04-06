@@ -7,7 +7,7 @@ class PickCharactersStage:
         self.arena = arena
         self.lives = lives
 
-        self.selectedIdx = 0
+        self.selectedIdx = 5
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -17,63 +17,63 @@ class PickCharactersStage:
 
         # character icons on select grid
         self.character_images = [
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/tide.jpg"),
             pygame.image.load("image_reference/chars/kalen.png"),
             pygame.image.load("image_reference/chars/ref.jpg"),
             pygame.image.load("image_reference/chars/jc.png"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al.png"),
             pygame.image.load("image_reference/chars/nick.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/ride.jpg"),
+            pygame.image.load("image_reference/chars/veo.png"),
             pygame.image.load("image_reference/chars/forrest.png"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/nacho.jpg"),
             pygame.image.load("image_reference/chars/alex.jpg")
         ]
 
         self.character_names = [
-            "Stock", 
+            "Crimson Tide", 
             "Kalen DeBoer", 
             "Corrupt Ref", 
             "Jeff Carver", 
             "Stock", 
             "Big Al", 
             "Nick Saban", 
-            "Stock", 
+            "Crimson Ride", 
+            "VEO Rider", 
             "Forrest Gump", 
-            "Stock", 
             "Nacho Alabamo", 
             "Alex Shunnarah"
         ]
 
         # pictures for characters when hovered over
         self.character_preview = [
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/tide_prev.jpg"),
+            pygame.image.load("image_reference/chars/deboer_prev.png"),
             pygame.image.load("image_reference/chars/ref_prev.jpg"),
             pygame.image.load("image_reference/chars/jc_prev.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al_prev.jpg"),
             pygame.image.load("image_reference/chars/nick_prev.png"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/ride_prev.jpg"),
+            pygame.image.load("image_reference/chars/veo_prev.jpg"),
+            pygame.image.load("image_reference/chars/forrest_prev.jpg"),
             pygame.image.load("image_reference/chars/nacho_prev.jpg"),
             pygame.image.load("image_reference/chars/alex_prev.png")
         ]
 
         # difficulty rating for each character
         self.character_diff = [
-            3, # stock
+            5, # tide
             4, # kalen
             5, # ref
-            4, # jeff carver
+            3, # jeff carver
             3, # stock
             1, # big al
             2, # nick saban
-            3, # stock
+            4, # ride
+            4, # veo
             1, # forrest
-            3, # stock
             2, # nacho
             5 # alex shunnarah
         ]
