@@ -6,6 +6,7 @@ from gameplay.gameplay_stage import GamePlayStage
 class PickMapStage:
     def __init__(self, arena, lives):
         pygame.init()
+        pygame.mixer.init()
 
         self.arena = arena
         self.lives = lives
@@ -13,6 +14,7 @@ class PickMapStage:
         self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
+        self.WHITE = (255,255,255)
         self.CREME = (255, 255, 220)
         self.BLACK = (0, 0, 0)
         self.SHEAR_X = 0.0
@@ -45,16 +47,21 @@ class PickMapStage:
         self.rounders_map_background_image = pygame.image.load('image_reference/background/rounders.jpg').convert_alpha()
 
         self.map_image_list = [
-            {"name": "Waffle House", "idx": 0, "image": self.waffle_background_image},
-            {"name": "Shelby Hall", "idx": 1, "image": self.shelby_background_image},
-            {"name": "Bryant-Denny Stadium", "idx": 2, "image": self.bdenny_map_background_image},
-            {"name": "The Quad ", "idx": 3, "image": self.quad_map_background_image},
-            {"name": "Rounders", "idx": 4, "image": self.rounders_map_background_image}
+            {"name": "Waffle House", "idx": 0, "image": self.waffle_background_image, "size": "Small", "elevation": "None", "dynamic": "Yes"},
+            {"name": "Shelby Hall", "idx": 1, "image": self.shelby_background_image, "size": "Medium", "elevation": "Minimal", "dynamic": "No"},
+            {"name": "Bryant-Denny Stadium", "idx": 2, "image": self.bdenny_map_background_image, "size": "Large", "elevation": "None", "dynamic": "Yes"},
+            {"name": "The Quad ", "idx": 3, "image": self.quad_map_background_image, "size": "Large", "elevation": "None", "dynamic": "No"},
+            {"name": "Rounders", "idx": 4, "image": self.rounders_map_background_image, "size": "Medium", "elevation": "Minimal", "dynamic": "Yes"}
         ]
         self.map_pointer_index = next(
             (i for i, m in enumerate(self.map_image_list) if m["name"] == "Bryant-Denny Stadium"),
             None
         )
+
+        # Load Stage switch Sound 
+        # Load FLip Sound
+        # Load Select Sound
+        
         return
 
 
@@ -72,6 +79,7 @@ class PickMapStage:
 
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     self.flipped = not self.flipped
+
                 if event.key == pygame.K_RIGHT:
                     map_select.revolvingQueue_utils.shift_right(self.map_image_list)
                     print("shift right")
@@ -114,6 +122,21 @@ class PickMapStage:
         # self.screen.blit(text_surface, (190, 100))
         
         map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.stage_font, self.mostRecentDirection, self.flipped)
+
+        if self.flipped:
+            stats = [
+                f"Size: {self.map_image_list[self.map_pointer_index]['size']}",
+                f"Elevation: {self.map_image_list[self.map_pointer_index]['elevation']}",
+                f"Dynamic: {self.map_image_list[self.map_pointer_index]['dynamic']}"
+            ]
+        
+            # Draw stage stats
+            for i, line in enumerate(stats):
+                stat_surf = self.stage_font.render(line, True, self.WHITE)
+                self.screen.blit(stat_surf, (325, 150 + (i * 35)))
+
+            back_text = self.instruction_font.render("B: Back", True, self.BLACK)
+            self.screen.blit(back_text, (20, 470))
 
         pygame.display.flip()
     
