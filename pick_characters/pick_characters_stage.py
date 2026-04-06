@@ -8,6 +8,7 @@ class PickCharactersStage:
         self.lives = lives
 
         self.selectedIdx = 5
+        self.selectedAltIdx = 0
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -49,17 +50,41 @@ class PickCharactersStage:
         # pictures for characters when hovered over
         self.character_preview = [
             pygame.image.load("image_reference/chars/tide_prev.jpg"),
+            pygame.image.load("image_reference/chars/tide_prev1.png"),
+            pygame.image.load("image_reference/chars/tide_prev2.png"),
             pygame.image.load("image_reference/chars/deboer_prev.png"),
+            pygame.image.load("image_reference/chars/deboer_prev1.png"),
+            pygame.image.load("image_reference/chars/deboer_prev2.png"),
             pygame.image.load("image_reference/chars/ref_prev.jpg"),
+            pygame.image.load("image_reference/chars/ref_prev1.png"),
+            pygame.image.load("image_reference/chars/ref_prev2.png"),
             pygame.image.load("image_reference/chars/jc_prev.jpg"),
+            pygame.image.load("image_reference/chars/jc_prev1.png"),
+            pygame.image.load("image_reference/chars/jc_prev2.png"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/stock.jpg"),
             pygame.image.load("image_reference/chars/al_prev.jpg"),
+            pygame.image.load("image_reference/chars/al_prev1.png"),
+            pygame.image.load("image_reference/chars/al_prev2.png"),
             pygame.image.load("image_reference/chars/nick_prev.png"),
+            pygame.image.load("image_reference/chars/nick_prev1.png"),
+            pygame.image.load("image_reference/chars/nick_prev2.png"),
             pygame.image.load("image_reference/chars/ride_prev.jpg"),
-            pygame.image.load("image_reference/chars/veo_prev.jpg"),
+            pygame.image.load("image_reference/chars/ride_prev1.png"),
+            pygame.image.load("image_reference/chars/ride_prev2.png"),
+            pygame.image.load("image_reference/chars/veo_prev.jpg"), 
+            pygame.image.load("image_reference/chars/veo_prev1.png"),
+            pygame.image.load("image_reference/chars/veo_prev2.png"),
             pygame.image.load("image_reference/chars/forrest_prev.jpg"),
+            pygame.image.load("image_reference/chars/forrest_prev1.png"),
+            pygame.image.load("image_reference/chars/forrest_prev2.png"),
             pygame.image.load("image_reference/chars/nacho_prev.jpg"),
-            pygame.image.load("image_reference/chars/alex_prev.png")
+            pygame.image.load("image_reference/chars/nacho_prev1.png"),
+            pygame.image.load("image_reference/chars/nacho_prev2.png"),
+            pygame.image.load("image_reference/chars/alex_prev.png"),
+            pygame.image.load("image_reference/chars/alex_prev1.png"),
+            pygame.image.load("image_reference/chars/alex_prev2.png")
         ]
 
         # difficulty rating for each character
@@ -114,12 +139,20 @@ class PickCharactersStage:
                 col = self.selectedIdx % cols
                 if event.key == pygame.K_RIGHT:
                     col = (col + 1) % cols
+                    self.selectedAltIdx = 0
                 elif event.key == pygame.K_LEFT:
                     col = (col - 1 + cols) % cols
+                    self.selectedAltIdx = 0
                 elif event.key == pygame.K_DOWN:
                     row = (row + 1) % rows
+                    self.selectedAltIdx = 0
                 elif event.key == pygame.K_UP:
                     row = (row - 1 + rows) % rows
+                    self.selectedAltIdx = 0
+                elif event.key == pygame.K_LEFTBRACKET:
+                    self.selectedAltIdx = (self.selectedAltIdx + 1)% 3
+                elif event.key == pygame.K_RIGHTBRACKET:
+                    self.selectedAltIdx = (self.selectedAltIdx + 2)% 3
                 self.selectedIdx = row * cols + col
                 
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
@@ -333,7 +366,7 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
         # character preview
-        selected_char = self.character_preview[self.selectedIdx]
+        selected_char = self.character_preview[self.selectedIdx * 3 + self.selectedAltIdx]
 
         preview_width = 150
         preview_height = 300

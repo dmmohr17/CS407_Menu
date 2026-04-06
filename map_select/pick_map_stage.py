@@ -137,7 +137,7 @@ class PickMapStage:
             # Draw stage stats
             for i, line in enumerate(stats):
                 stat_surf = self.stage_font.render(line, True, self.WHITE)
-                self.screen.blit(stat_surf, (325, 150 + (i * 35)))
+                self.screen.blit(stat_surf, (300, 150 + (i * 35)))
 
             back_text = self.instruction_font.render("B: Back", True, self.BLACK)
             self.screen.blit(back_text, (20, 470))
