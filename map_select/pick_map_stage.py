@@ -19,8 +19,11 @@ class PickMapStage:
         self.SHEAR_Y = 0.1
         self.SCALE_INT = 150
 
+        self.flipped = False
+
         self.my_font = pygame.font.SysFont('Veranda', 60)
         self.stage_font = pygame.font.SysFont('Veranda', 30)
+        self.instruction_font = pygame.font.SysFont('Veranda', 20)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Pick Arena")
@@ -64,6 +67,8 @@ class PickMapStage:
                 if event.key == pygame.K_q:
                     exit()
                 
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    self.flipped = not self.flipped
                 if event.key == pygame.K_RIGHT:
                     map_select.revolvingQueue_utils.shift_right(self.map_image_list)
                     print("shift right")
@@ -92,11 +97,18 @@ class PickMapStage:
         text_width = text_surface.get_width()
         x_position = (self.WIDTH - text_width) // 2
         self.screen.blit(text_surface, (x_position, 40))
+
+        text_surface = self.instruction_font.render("B for back     -", True, (0, 0, 0))
+        self.screen.blit(text_surface, (50, 470))
+        text_surface = self.instruction_font.render("Left/Right arrows to switch map        -       Up/Down arrows to flip map      -", True, (0, 0, 0))
+        self.screen.blit(text_surface, (150, 470))
+        text_surface = self.instruction_font.render("Enter to begin match", True, (0, 0, 0))
+        self.screen.blit(text_surface, (640, 470))
         
         # original
         # self.screen.blit(text_surface, (190, 100))
         
-        map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.stage_font, self.mostRecentDirection)
+        map_select.revolvingQueue_utils.render_maps(self.screen, self.map_image_list, self.object_list, self.stage_font, self.mostRecentDirection, self.flipped)
 
         pygame.display.flip()
     

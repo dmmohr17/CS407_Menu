@@ -90,7 +90,7 @@ def shear_and_scale(image, SHEAR_X, SHEAR_Y, SCALE_INT):
 
     return scaled_sheared, scaled_corners
 
-def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
+def render_maps(screen, map_image_list, object_list, my_font, shiftDirection, flipped):
     # Clear previous objects
     object_list.clear()
 
@@ -154,7 +154,12 @@ def render_maps(screen, map_image_list, object_list, my_font, shiftDirection):
             obj.draw(screen, obj.sheared_surface, obj.corners_for_draw)
     if edgeCase:
         secondObject.draw(screen, secondObject.sheared_surface, secondObject.corners_for_draw)
-    centerObject.draw(screen, centerObject.sheared_surface, centerObject.corners_for_draw)
+    if not flipped:
+        centerObject.draw(screen, centerObject.sheared_surface, centerObject.corners_for_draw)
+    else:
+        # (250, 100, 300, 0)
+        pygame.draw.rect(screen, (80, 80, 80), (250, 100, 300, 300))
+        pygame.draw.rect(screen, (34, 34, 34), (250, 100, 300, 300), 2)
     
     # Render text for the center object (idx 2) if it exists
     center_map = next((m for m in map_image_list if m["idx"] == 2), None)
