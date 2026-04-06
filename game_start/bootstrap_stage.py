@@ -20,6 +20,10 @@ class BootStrapStage:
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Welcome, Players!")
+        
+        pygame.mixer.init()
+        pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
+        pygame.mixer.music.play(start=1.0)
 
 
     def updateGameplay(self):
