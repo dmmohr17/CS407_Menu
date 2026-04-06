@@ -65,8 +65,8 @@ class PickCharactersStage:
         # difficulty rating for each character
         self.character_diff = [
             5, # tide
-            4, # kalen
-            5, # ref
+            3, # kalen
+            4, # ref
             3, # jeff carver
             3, # stock
             1, # big al

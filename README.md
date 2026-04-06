@@ -10,7 +10,7 @@
 **TODO**
 * Add sounds - BGM, menu clicking, character and stage names
 * Redirect to home screen after selecting stage
-* Fill remaining stages and character slots
+* Fill remaining character slots
 * Adjust character select so you must select both characters before progressing
 * Add ability to backtrack through pages
 * Add "more details" popup menu to character select
