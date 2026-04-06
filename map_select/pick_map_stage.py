@@ -58,10 +58,10 @@ class PickMapStage:
             None
         )
 
-        # Load Stage switch Sound 
-        # Load FLip Sound
-        # Load Select Sound
-        
+        self.click_sound = pygame.mixer.Sound("image_reference/sounds/click.mp3")
+        self.card_flip_sound = pygame.mixer.Sound("image_reference/sounds/cardFlip.mp3")
+        self.select_sound = pygame.mixer.Sound("image_reference/sounds/select.mp3")
+
         return
 
 
@@ -78,21 +78,25 @@ class PickMapStage:
                     return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives})
 
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    self.card_flip_sound.play()
                     self.flipped = not self.flipped
 
                 if event.key == pygame.K_RIGHT:
+                    self.click_sound.play()
                     map_select.revolvingQueue_utils.shift_right(self.map_image_list)
                     print("shift right")
                     self.flipped = False
                     self.map_pointer_index = self.map_pointer_index + 1
                     self.mostRecentDirection = -1
                 if event.key == pygame.K_LEFT:
+                    self.click_sound.play()
                     map_select.revolvingQueue_utils.shift_left(self.map_image_list)
                     self.map_pointer_index = self.map_pointer_index - 1
                     print("shift left")
                     self.flipped = False
                     self.mostRecentDirection = 0
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                    self.select_sound.play()
                     print("select")
                     return ("GAMEPLAY", {
                         "player1_character": "fireball",
@@ -101,7 +105,7 @@ class PickMapStage:
                         "arena": self.arena,
                         "lives": self.lives
                     })
-
+                
         self.screen.fill(self.CREME)
 
         text_surface = self.my_font.render("Select a Map", True, (0, 0, 0))

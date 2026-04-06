@@ -92,6 +92,12 @@ class PickCharactersStage:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Welcome, Players!")
 
+        pygame.mixer.init()
+
+        self.click_sound = pygame.mixer.Sound("image_reference/sounds/click.mp3")
+        self.select_sound = pygame.mixer.Sound("image_reference/sounds/select.mp3")
+
+
 
     def updateGameplay(self):
         for event in pygame.event.get():
@@ -117,7 +123,9 @@ class PickCharactersStage:
                 self.selectedIdx = row * cols + col
                 
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                    self.select_sound.play()
                     return ("PICK_MAP", {"arena": self.arena, "lives": self.lives})
+                self.click_sound.play()
 
         self.draw()
 
