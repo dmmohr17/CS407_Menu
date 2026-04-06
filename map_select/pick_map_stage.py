@@ -67,17 +67,22 @@ class PickMapStage:
                 if event.key == pygame.K_q:
                     exit()
                 
+                if event.key == pygame.K_b:
+                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives})
+
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     self.flipped = not self.flipped
                 if event.key == pygame.K_RIGHT:
                     map_select.revolvingQueue_utils.shift_right(self.map_image_list)
                     print("shift right")
+                    self.flipped = False
                     self.map_pointer_index = self.map_pointer_index + 1
                     self.mostRecentDirection = -1
                 if event.key == pygame.K_LEFT:
                     map_select.revolvingQueue_utils.shift_left(self.map_image_list)
                     self.map_pointer_index = self.map_pointer_index - 1
                     print("shift left")
+                    self.flipped = False
                     self.mostRecentDirection = 0
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
                     print("select")
