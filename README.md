@@ -13,5 +13,4 @@
 * Add ability to backtrack through selections (deselect character)
 * Add "more details" popup menu to character select
 * Polish all screens - colors, text, etc.
-* need to add alt colors + previews
 * add "confirm" option after choosing stage
