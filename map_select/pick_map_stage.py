@@ -4,12 +4,13 @@ import map_select.revolvingQueue_utils
 from gameplay.gameplay_stage import GamePlayStage
 
 class PickMapStage:
-    def __init__(self, arena, lives):
+    def __init__(self, arena, lives, two_player):
         pygame.init()
         pygame.mixer.init()
 
         self.arena = arena
         self.lives = lives
+        self.two_player = two_player
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -75,7 +76,7 @@ class PickMapStage:
                     exit()
                 
                 if event.key == pygame.K_b:
-                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives})
+                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     self.card_flip_sound.play()

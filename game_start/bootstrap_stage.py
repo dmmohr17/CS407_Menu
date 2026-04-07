@@ -7,6 +7,8 @@ class BootStrapStage:
         self.arena = False
         self.lives = 3
 
+        self.two_player = False
+
         self.selectedIdx = 0
 
         self.WIDTH = 800
@@ -44,9 +46,12 @@ class BootStrapStage:
 
                 if event.key == pygame.K_LEFT:
                     self.lives = self.lives - 1
+
+                if event.key == pygame.K_w:
+                    self.two_player = not self.two_player
                 
                 if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
-                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives})
+                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
         self.draw()
 
@@ -54,15 +59,21 @@ class BootStrapStage:
         self.screen.fill(self.CREME)
 
         text_surface = self.arena_message_font.render("Each character has " + str(self.lives) + " lives (use R_ARROW and L_ARROW to change).", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 425))
+        self.screen.blit(text_surface, (30, 400))
 
         if self.arena == True:
             text_surface = self.arena_message_font.render("Press 'a' to disable arena mode.", True, self.GRAY)
         else:
             text_surface = self.arena_message_font.render("Press 'a' to enable arena mode.", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 450))
+        self.screen.blit(text_surface, (30, 425))
         
         text_surface = self.arena_message_font.render("Press 'q' to quit.", True, self.GRAY)
+        self.screen.blit(text_surface, (30, 450))
+
+        if self.two_player == True:
+            text_surface = self.arena_message_font.render("Press 'w' to disable two player.", True, self.GRAY)
+        else:
+            text_surface = self.arena_message_font.render("Press 'w' to enable two player.", True, self.GRAY)
         self.screen.blit(text_surface, (30, 475))
 
         pygame.display.flip()

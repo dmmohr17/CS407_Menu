@@ -1,14 +1,21 @@
 import pygame
 
 class PickCharactersStage:
-    def __init__(self, arena, lives):
+    def __init__(self, arena, lives, two_player):
         pygame.init()
 
         self.arena = arena
         self.lives = lives
+        self.two_player = two_player
 
         self.selectedIdx = 5
         self.selectedAltIdx = 0
+
+        self.selectedIdxP2 = 6
+        self.selectedAltIdxP2 = 0
+
+        self.p1_selected = False
+        self.p2_selected = False
 
         self.instruction_font = pygame.font.SysFont('Veranda', 20)
 
@@ -138,31 +145,90 @@ class PickCharactersStage:
                 if event.key == pygame.K_b:
                     return ("BOOTSTRAP", {})
 
-                rows = 3
-                cols = 4
-                row = self.selectedIdx // cols
-                col = self.selectedIdx % cols
-                if event.key == pygame.K_RIGHT:
-                    col = (col + 1) % cols
-                    self.selectedAltIdx = 0
-                elif event.key == pygame.K_LEFT:
-                    col = (col - 1 + cols) % cols
-                    self.selectedAltIdx = 0
-                elif event.key == pygame.K_DOWN:
-                    row = (row + 1) % rows
-                    self.selectedAltIdx = 0
-                elif event.key == pygame.K_UP:
-                    row = (row - 1 + rows) % rows
-                    self.selectedAltIdx = 0
-                elif event.key == pygame.K_LEFTBRACKET:
-                    self.selectedAltIdx = (self.selectedAltIdx + 1)% 3
-                elif event.key == pygame.K_RIGHTBRACKET:
-                    self.selectedAltIdx = (self.selectedAltIdx + 2)% 3
-                self.selectedIdx = row * cols + col
+                if(self.p1_selected == False):
+                    rows = 3
+                    cols = 4
+                    row = self.selectedIdx // cols
+                    col = self.selectedIdx % cols
+                    if event.key == pygame.K_d:
+                        col = (col + 1) % cols
+                        self.selectedAltIdx = 0
+                    elif event.key == pygame.K_a:
+                        col = (col - 1 + cols) % cols
+                        self.selectedAltIdx = 0
+                    elif event.key == pygame.K_s:
+                        row = (row + 1) % rows
+                        self.selectedAltIdx = 0
+                    elif event.key == pygame.K_w:
+                        row = (row - 1 + rows) % rows
+                        self.selectedAltIdx = 0
+                    elif event.key == pygame.K_r:
+                        self.selectedAltIdx = (self.selectedAltIdx + 1)% 3
+                    elif event.key == pygame.K_t:
+                        self.selectedAltIdx = (self.selectedAltIdx + 2)% 3
+                    self.selectedIdx = row * cols + col
+
+                if self.two_player == True:
+                    rowsP2 = 3
+                    colsP2 = 4
+                    rowP2 = self.selectedIdxP2 // colsP2
+                    colP2 = self.selectedIdxP2 % colsP2
+                    if event.key == pygame.K_RIGHT:
+                        colP2 = (colP2 + 1) % colsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_LEFT:
+                        colP2 = (colP2 - 1 + colsP2) % colsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_DOWN:
+                        rowP2 = (rowP2 + 1) % rowsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_UP:
+                        rowP2 = (rowP2 - 1 + rowsP2) % rowsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_LEFTBRACKET:
+                        self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 1)% 3
+                    elif event.key == pygame.K_RIGHTBRACKET:
+                        self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 2)% 3
+                    self.selectedIdxP2 = rowP2 * colsP2 + colP2
+                elif self.two_player == False and self.p1_selected == True:
+                    rowsP2 = 3
+                    colsP2 = 4
+                    rowP2 = self.selectedIdxP2 // colsP2
+                    colP2 = self.selectedIdxP2 % colsP2
+                    if event.key == pygame.K_d:
+                        colP2 = (colP2 + 1) % colsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_a:
+                        colP2 = (colP2 - 1 + colsP2) % colsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_s:
+                        rowP2 = (rowP2 + 1) % rowsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_w:
+                        rowP2 = (rowP2 - 1 + rowsP2) % rowsP2
+                        self.selectedAltIdxP2 = 0
+                    elif event.key == pygame.K_r:
+                        self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 1)% 3
+                    elif event.key == pygame.K_t:
+                        self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 2)% 3
+                    self.selectedIdxP2 = rowP2 * colsP2 + colP2
                 
-                if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                if (event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and self.two_player == False:
                     self.select_sound.play()
-                    return ("PICK_MAP", {"arena": self.arena, "lives": self.lives})
+                    if(self.p1_selected == False):
+                        self.p1_selected = True
+                    else:
+                        return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                elif(self.two_player == True):
+                    if(event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and self.p2_selected == False:
+                        self.select_sound.play()
+                        self.p2_selected = True
+                    if event.key == pygame.K_e and self.p2_selected == False:
+                        self.select_sound.play()
+                        self.p1_selected = True
+
+                    if self.p1_selected == True and self.p2_selected == True:
+                        return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
                 self.click_sound.play()
 
         self.draw()
@@ -217,9 +283,12 @@ class PickCharactersStage:
             self.screen.blit(scaled_img, (x, y))
             pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
-            # highlight if selected box - have player 2 box be red later
+            # highlight if selected box
             if i == self.selectedIdx:
                 pygame.draw.rect(self.screen, self.BLUE, rect, 3)
+
+            if i == self.selectedIdxP2:
+                pygame.draw.rect(self.screen, self.RED, rect, 3)
 
             # draw difficulty rating - player 1
             fill = self.filled_star
@@ -299,7 +368,7 @@ class PickCharactersStage:
             fill = self.filled_star
             hollow = self.hollow_star
             right_side = 800
-            if self.character_diff[self.selectedIdx] == 1:
+            if self.character_diff[self.selectedIdxP2] == 1:
                 # render 1 star
                 star1 = pygame.transform.scale(fill, (25, 25))
                 star2 = pygame.transform.scale(hollow, (25, 25))
@@ -313,7 +382,7 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 2:
+            elif self.character_diff[self.selectedIdxP2] == 2:
                 # render 2 star
                 star1 = pygame.transform.scale(fill, (25, 25))
                 star2 = pygame.transform.scale(hollow, (25, 25))
@@ -327,7 +396,7 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 3:
+            elif self.character_diff[self.selectedIdxP2] == 3:
                 # render 3 star
                 star1 = pygame.transform.scale(fill, (25, 25))
                 star2 = pygame.transform.scale(hollow, (25, 25))
@@ -341,7 +410,7 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 4:
+            elif self.character_diff[self.selectedIdxP2] == 4:
                 # render 4 star
                 star1 = pygame.transform.scale(fill, (25, 25))
                 star2 = pygame.transform.scale(hollow, (25, 25))
@@ -355,7 +424,7 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 5:
+            elif self.character_diff[self.selectedIdxP2] == 5:
                 # render 5 star
                 star1 = pygame.transform.scale(fill, (25, 25))
                 star2 = pygame.transform.scale(hollow, (25, 25))
@@ -372,6 +441,7 @@ class PickCharactersStage:
 
         # character preview
         selected_char = self.character_preview[self.selectedIdx * 3 + self.selectedAltIdx]
+        selected_charP2 = self.character_preview[self.selectedIdxP2 * 3 + self.selectedAltIdxP2]
 
         preview_width = 150
         preview_height = 300
@@ -381,7 +451,7 @@ class PickCharactersStage:
         left_y = ((self.HEIGHT - preview_height) // 2) - 20
         self.screen.blit(preview_pic, (left_x, left_y))
         
-        # need to add code for right preview later, for now just mirror player 1
+        preview_pic = pygame.transform.scale(selected_charP2, (preview_width, preview_height))
         right_x = self.WIDTH - preview_width - 15
         right_y = ((self.HEIGHT - preview_height) // 2) - 20
         flip = pygame.transform.flip(preview_pic, True, False)
@@ -397,17 +467,19 @@ class PickCharactersStage:
             preview_width + panel_padding*2, preview_height + panel_padding*2), 2)
         
         name = self.character_names[self.selectedIdx]
+        nameP2 = self.character_names[self.selectedIdxP2]
         name_surface = self.game_over_font.render(name, True, self.BLACK)
+        name_surfaceP2 = self.game_over_font.render(nameP2, True, self.BLACK)
         name_rect_left = name_surface.get_rect(center=(
             left_x + (preview_width // 2),
             left_y + preview_height + 20
         ))
-        name_rect_right = name_surface.get_rect(center=(
+        name_rect_right = name_surfaceP2.get_rect(center=(
             right_x + (preview_width // 2),
             right_y + preview_height + 20
         ))
         self.screen.blit(name_surface, name_rect_left)
-        self.screen.blit(name_surface, name_rect_right)
+        self.screen.blit(name_surfaceP2, name_rect_right)
 
         # difficulty text
         difficulty1_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
@@ -425,10 +497,14 @@ class PickCharactersStage:
 
         text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
         self.screen.blit(text_surface, (50, 470))
-        text_surface = self.instruction_font.render("-      WASD to switch player1      -    Arrows to switch player2      -", True, (0, 0, 0))
-        self.screen.blit(text_surface, (200, 470))
-        text_surface = self.instruction_font.render("Enter to begin match", True, (0, 0, 0))
-        self.screen.blit(text_surface, (640, 470))
+        if(self.two_player == True):
+            text_surface = self.instruction_font.render("-    P1: WASD = Move, E = Select, R/T = Color      -      P2: Arrows = Move, Enter = Select, [ / ] = Color  ", True, (0, 0, 0))
+            self.screen.blit(text_surface, (150, 470))
+        else:
+            text_surface = self.instruction_font.render("-      WASD to switch character      -    R T to select color      -", True, (0, 0, 0))
+            self.screen.blit(text_surface, (150, 470))
+            text_surface = self.instruction_font.render("Enter to select character", True, (0, 0, 0))
+            self.screen.blit(text_surface, (550, 470))
 
         pygame.display.flip()
     

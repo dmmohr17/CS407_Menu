@@ -8,11 +8,10 @@
 `current_stage` determines which stage is running. Between stages 1-4, `current_stage` should be updated via a return in the class stage (see [gameplay_stage](gameplay/gameplay_stage.py) and [pick_map_stage](map_select/pick_map_stage.py) for examples).
 
 **TODO**
-* Add sounds - BGM, menu clicking, character and stage names
+* Add sounds - character and stage names
 * Redirect to home screen after selecting stage
-* Fill remaining character slots
-* Adjust character select so you must select both characters before progressing
-* Add ability to backtrack through pages
+* Add ability to backtrack through selections (deselect character)
 * Add "more details" popup menu to character select
 * Polish all screens - colors, text, etc.
 * need to add alt colors + previews
+* add "confirm" option after choosing stage
