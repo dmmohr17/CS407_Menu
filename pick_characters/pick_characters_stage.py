@@ -10,6 +10,8 @@ class PickCharactersStage:
         self.selectedIdx = 5
         self.selectedAltIdx = 0
 
+        self.instruction_font = pygame.font.SysFont('Veranda', 20)
+
         self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
@@ -132,6 +134,9 @@ class PickCharactersStage:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     exit()
+
+                if event.key == pygame.K_b:
+                    return ("BOOTSTRAP", {})
 
                 rows = 3
                 cols = 4
@@ -417,6 +422,13 @@ class PickCharactersStage:
         ))
         self.screen.blit(difficulty1_text, diff_rect_left)
         self.screen.blit(difficulty2_text, diff_rect_right)
+
+        text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
+        self.screen.blit(text_surface, (50, 470))
+        text_surface = self.instruction_font.render("-      WASD to switch player1      -    Arrows to switch player2      -", True, (0, 0, 0))
+        self.screen.blit(text_surface, (200, 470))
+        text_surface = self.instruction_font.render("Enter to begin match", True, (0, 0, 0))
+        self.screen.blit(text_surface, (640, 470))
 
         pygame.display.flip()
     
