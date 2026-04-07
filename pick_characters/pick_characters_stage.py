@@ -168,7 +168,7 @@ class PickCharactersStage:
                         self.selectedAltIdx = (self.selectedAltIdx + 2)% 3
                     self.selectedIdx = row * cols + col
 
-                if self.two_player == True:
+                if self.two_player == True and self.p2_selected == False:
                     rowsP2 = 3
                     colsP2 = 4
                     rowP2 = self.selectedIdxP2 // colsP2
@@ -213,7 +213,7 @@ class PickCharactersStage:
                         self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 2)% 3
                     self.selectedIdxP2 = rowP2 * colsP2 + colP2
                 
-                if (event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and self.two_player == False:
+                if (event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN or event.key == pygame.K_e) and self.two_player == False:
                     self.select_sound.play()
                     if(self.p1_selected == False):
                         self.p1_selected = True
@@ -223,7 +223,7 @@ class PickCharactersStage:
                     if(event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and self.p2_selected == False:
                         self.select_sound.play()
                         self.p2_selected = True
-                    if event.key == pygame.K_e and self.p2_selected == False:
+                    if event.key == pygame.K_e and self.p1_selected == False:
                         self.select_sound.play()
                         self.p1_selected = True
 
@@ -503,7 +503,7 @@ class PickCharactersStage:
         else:
             text_surface = self.instruction_font.render("-      WASD to switch character      -    R T to select color      -", True, (0, 0, 0))
             self.screen.blit(text_surface, (150, 470))
-            text_surface = self.instruction_font.render("Enter to select character", True, (0, 0, 0))
+            text_surface = self.instruction_font.render("Enter or E to select character", True, (0, 0, 0))
             self.screen.blit(text_surface, (550, 470))
 
         pygame.display.flip()

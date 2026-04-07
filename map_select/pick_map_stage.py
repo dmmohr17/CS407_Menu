@@ -78,34 +78,38 @@ class PickMapStage:
                 if event.key == pygame.K_b:
                     return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
-                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_w:
                     self.card_flip_sound.play()
                     self.flipped = not self.flipped
 
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                     self.click_sound.play()
                     map_select.revolvingQueue_utils.shift_right(self.map_image_list)
                     print("shift right")
                     self.flipped = False
                     self.map_pointer_index = self.map_pointer_index + 1
                     self.mostRecentDirection = -1
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                     self.click_sound.play()
                     map_select.revolvingQueue_utils.shift_left(self.map_image_list)
                     self.map_pointer_index = self.map_pointer_index - 1
                     print("shift left")
                     self.flipped = False
                     self.mostRecentDirection = 0
-                if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN or event.key == pygame.K_e:
                     self.select_sound.play()
                     print("select")
-                    return ("GAMEPLAY", {
-                        "player1_character": "fireball",
-                        "player2_character": "throwing_knife",
-                        "MAP": self.map_image_list[self.map_pointer_index]["name"],
-                        "arena": self.arena,
-                        "lives": self.lives
-                    })
+
+                    return ("BOOTSTRAP", {})
+                    
+                    # gameplay stages currently broken, so removed this
+                    #return ("GAMEPLAY", {
+                    #    "player1_character": "fireball",
+                    #    "player2_character": "throwing_knife",
+                    #    "MAP": self.map_image_list[self.map_pointer_index]["name"],
+                    #    "arena": self.arena,
+                    #    "lives": self.lives
+                    #})
                 
         self.screen.fill(self.CREME)
 
@@ -117,11 +121,11 @@ class PickMapStage:
         self.screen.blit(text_surface, (x_position, 40))
 
         text_surface = self.instruction_font.render("B for back     -", True, (0, 0, 0))
-        self.screen.blit(text_surface, (50, 470))
+        self.screen.blit(text_surface, (40, 470))
         text_surface = self.instruction_font.render("Left/Right arrows to switch map        -       Up/Down arrows to flip map      -", True, (0, 0, 0))
-        self.screen.blit(text_surface, (150, 470))
-        text_surface = self.instruction_font.render("Enter to begin match", True, (0, 0, 0))
-        self.screen.blit(text_surface, (640, 470))
+        self.screen.blit(text_surface, (140, 470))
+        text_surface = self.instruction_font.render("Enter or E to begin match", True, (0, 0, 0))
+        self.screen.blit(text_surface, (630, 470))
         
         # original
         # self.screen.blit(text_surface, (190, 100))
