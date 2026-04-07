@@ -24,6 +24,7 @@ class PickCharactersStage:
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
         self.BLACK = (0, 0, 0)
+        self.PURPLE = (160, 32, 240)
 
         # character icons on select grid
         self.character_images = [
@@ -284,160 +285,163 @@ class PickCharactersStage:
             pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
             # highlight if selected box
-            if i == self.selectedIdx:
-                pygame.draw.rect(self.screen, self.BLUE, rect, 3)
+            if i == self.selectedIdx and self.selectedIdx != self.selectedIdxP2:
+                pygame.draw.rect(self.screen, self.BLUE, rect, 5)
 
-            if i == self.selectedIdxP2:
-                pygame.draw.rect(self.screen, self.RED, rect, 3)
+            if i == self.selectedIdxP2 and self.selectedIdx != self.selectedIdxP2:
+                pygame.draw.rect(self.screen, self.RED, rect, 5)
 
-            # draw difficulty rating - player 1
-            fill = self.filled_star
-            hollow = self.hollow_star
-            if self.character_diff[self.selectedIdx] == 1:
-                # render 1 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (25, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 2:
-                # render 2 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (25, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 3:
-                # render 3 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (25, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 4:
-                # render 4 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (25, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdx] == 5:
-                # render 5 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (25, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            if i == self.selectedIdx and self.selectedIdx == self.selectedIdxP2:
+                pygame.draw.rect(self.screen, self.PURPLE, rect, 5)
 
-            # draw difficulty rating - player 2
-            fill = self.filled_star
-            hollow = self.hollow_star
-            right_side = 800
-            if self.character_diff[self.selectedIdxP2] == 1:
-                # render 1 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (right_side - 150, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdxP2] == 2:
-                # render 2 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (right_side - 150, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdxP2] == 3:
-                # render 3 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (right_side - 150, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdxP2] == 4:
-                # render 4 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (right_side - 150, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star2, (right_side - 50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-            elif self.character_diff[self.selectedIdxP2] == 5:
-                # render 5 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
-                self.screen.blit(star1, (right_side - 150, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 125, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 100, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 75, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
-                self.screen.blit(star1, (right_side - 50, 435))
-                pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        # draw difficulty rating - player 1
+        fill = self.filled_star
+        hollow = self.hollow_star
+        if self.character_diff[self.selectedIdx] == 1:
+            # render 1 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (25, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdx] == 2:
+            # render 2 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (25, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdx] == 3:
+            # render 3 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (25, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdx] == 4:
+            # render 4 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (25, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdx] == 5:
+            # render 5 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (25, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+
+        # draw difficulty rating - player 2
+        fill = self.filled_star
+        hollow = self.hollow_star
+        right_side = 800
+        if self.character_diff[self.selectedIdxP2] == 1:
+            # render 1 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (right_side - 150, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdxP2] == 2:
+            # render 2 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (right_side - 150, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdxP2] == 3:
+            # render 3 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (right_side - 150, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdxP2] == 4:
+            # render 4 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (right_side - 150, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star2, (right_side - 50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+        elif self.character_diff[self.selectedIdxP2] == 5:
+            # render 5 star
+            star1 = pygame.transform.scale(fill, (25, 25))
+            star2 = pygame.transform.scale(hollow, (25, 25))
+            self.screen.blit(star1, (right_side - 150, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 125, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 100, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 75, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
+            self.screen.blit(star1, (right_side - 50, 435))
+            pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
         # character preview
         selected_char = self.character_preview[self.selectedIdx * 3 + self.selectedAltIdx]
