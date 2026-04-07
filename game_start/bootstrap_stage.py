@@ -23,7 +23,7 @@ class BootStrapStage:
         
         pygame.mixer.init()
         pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
-        pygame.mixer.music.play(start=1.0)
+        pygame.mixer.music.play(start=1.0, loops=-1)
 
 
     def updateGameplay(self):
