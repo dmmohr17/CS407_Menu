@@ -1,2 +1,3 @@
 # Build Files
+__pycache__/
 *.pyc
