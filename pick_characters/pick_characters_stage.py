@@ -24,7 +24,7 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/kalen.png"),
             pygame.image.load("image_reference/chars/ref.jpg"),
             pygame.image.load("image_reference/chars/jc.png"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/squirrel.png"),
             pygame.image.load("image_reference/chars/al.png"),
             pygame.image.load("image_reference/chars/nick.jpg"),
             pygame.image.load("image_reference/chars/ride.jpg"),
@@ -39,7 +39,7 @@ class PickCharactersStage:
             "Kalen DeBoer", 
             "Corrupt Ref", 
             "Jeff Carver", 
-            "Stock", 
+            "Campus Squirrel", 
             "Big Al", 
             "Nick Saban", 
             "Crimson Ride", 
@@ -63,9 +63,9 @@ class PickCharactersStage:
             pygame.image.load("image_reference/chars/jc_prev.jpg"),
             pygame.image.load("image_reference/chars/jc_prev1.png"),
             pygame.image.load("image_reference/chars/jc_prev2.png"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
-            pygame.image.load("image_reference/chars/stock.jpg"),
+            pygame.image.load("image_reference/chars/squirrel_prev.png"),
+            pygame.image.load("image_reference/chars/squirrel_prev.png"),
+            pygame.image.load("image_reference/chars/squirrel_prev.png"),
             pygame.image.load("image_reference/chars/al_prev.jpg"),
             pygame.image.load("image_reference/chars/al_prev1.png"),
             pygame.image.load("image_reference/chars/al_prev2.png"),
@@ -95,7 +95,7 @@ class PickCharactersStage:
             3, # kalen
             4, # ref
             3, # jeff carver
-            3, # stock
+            3, # squirrel
             1, # big al
             2, # nick saban
             4, # ride
