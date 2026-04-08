@@ -3,13 +3,14 @@
 * [main](main.py) runs the game
 * Button commands are displayed at the bottom of the screen. Use WASD as player one to navigate the menu, and the arrows as player two
 
-To run this program, simply use the following commmand from the directory on level with main.py.
+To run this program on windows, simply use the following commmand from the directory on level with `main.py`.
 ```bash
 python main.py
 python.exe main.py # In case of issues on Windows, use this version
 ```
+To run this program on linux WSL (Ubuntu), navigate to `main.py` and press `ctrl` + `f5`.
 
-This program requires little in terms of hardware, but is expected to have a working keyboard with all basic keys, numpad not required. 
+***NOTE***: This program requires little in terms of hardware, but is expected to have a working keyboard with all basic keys, numpad not required. 
 
 **Requirements**
 Required packages to run this program include `Numpy` and `Pygame`, as well as python. 
