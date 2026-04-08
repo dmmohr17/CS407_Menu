@@ -31,8 +31,3 @@ To install packages, milage my vary by OS. The command used should (and likely w
 pip install Numpy
 pip install Pygame
 ```
-
-**TODO**
-* Add sounds - character and stage names
-* Add ability to backtrack through selections (deselect character without going back home)
-* Polish all screens - colors, text, etc.
