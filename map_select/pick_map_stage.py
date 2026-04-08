@@ -18,6 +18,7 @@ class PickMapStage:
         self.GRAY = (34, 34, 34)
         self.WHITE = (255,255,255)
         self.CREME = (255, 255, 220)
+        self.PINK = (220, 180, 160)
         self.BLACK = (0, 0, 0)
         self.SHEAR_X = 0.0
         self.SHEAR_Y = 0.1
@@ -26,8 +27,8 @@ class PickMapStage:
         self.flipped = False
         self.check_ready = False
 
-        self.my_font = pygame.font.SysFont('Veranda', 60)
-        self.stage_font = pygame.font.SysFont('Veranda', 30)
+        self.my_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 50)
+        self.stage_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 30)
         self.instruction_font = pygame.font.SysFont('Veranda', 20)
         self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 200)
 
@@ -123,14 +124,14 @@ class PickMapStage:
                     #    "lives": self.lives
                     #})
                 
-        self.screen.fill(self.CREME)
+        self.screen.fill(self.PINK)
 
         text_surface = self.my_font.render("Select a Map", True, (0, 0, 0))
 
         # added to center text
         text_width = text_surface.get_width()
         x_position = (self.WIDTH - text_width) // 2
-        self.screen.blit(text_surface, (x_position, 40))
+        self.screen.blit(text_surface, (x_position + 5, 40))
 
         text_surface = self.instruction_font.render("B for back     -", True, (0, 0, 0))
         self.screen.blit(text_surface, (40, 470))

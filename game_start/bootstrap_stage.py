@@ -27,8 +27,8 @@ class BootStrapStage:
         self.title_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 56)
         self.option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 38)
         self.small_option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 20)
-        self.help_font = pygame.font.SysFont('Veranda', 20)
-        self.credits_font = pygame.font.SysFont('Veranda', 28)
+        self.help_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 20)
+        self.credits_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 28)
 
         self.credits_lines = [
             "CS407 Fighting Game",
@@ -53,7 +53,7 @@ class BootStrapStage:
 
         pygame.mixer.init()
         pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
-        pygame.mixer.music.play(start=1.0, loops=-1)
+        # pygame.mixer.music.play(start=1.0, loops=-1)
 
     def updateGameplay(self):
         for event in pygame.event.get():

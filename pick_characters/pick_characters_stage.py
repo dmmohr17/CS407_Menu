@@ -17,13 +17,14 @@ class PickCharactersStage:
         self.p1_selected = False
         self.p2_selected = False
 
-        self.instruction_font = pygame.font.SysFont('Veranda', 20)
+        self.instruction_font = pygame.font.SysFont("pick_characters/DIMIS___.TTF", 20)
         self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 32)
 
         self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
+        self.PINK = (220, 180, 160)
         self.BLACK = (0, 0, 0)
         self.PURPLE = (160, 32, 240)
         self.GREEN = (26, 224, 0)
@@ -136,12 +137,12 @@ class PickCharactersStage:
         self.show_stats = False
         self.show_statsP2 = False
 
-        self.game_over_font = pygame.font.SysFont('Veranda', 30)
-        self.arena_message_font = pygame.font.SysFont('Veranda', 50)
-        self.difficulty_font = pygame.font.SysFont('Veranda', 25)
+        self.game_over_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 23)
+        self.arena_message_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 40)
+        self.difficulty_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 18)
 
-        self.player1_font = pygame.font.SysFont('Veranda', 30)
-        self.player2_font = pygame.font.SysFont('Veranda', 30)
+        self.player1_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
+        self.player2_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
         self.BLUE = (0, 0, 255)
         self.RED = (255, 0, 0)
 
@@ -509,7 +510,7 @@ class PickCharactersStage:
             
 
     def draw(self):
-        self.screen.fill(self.CREME)
+        self.screen.fill(self.PINK)
 
         text_surface = self.arena_message_font.render("Select Your Fighter", True, self.GRAY)
 
@@ -601,11 +602,11 @@ class PickCharactersStage:
         name_surfaceP2 = self.game_over_font.render(nameP2, True, self.BLACK)
         name_rect_left = name_surface.get_rect(center=(
             left_x + (preview_width // 2),
-            left_y + preview_height + 15
+            left_y + preview_height + 20
         ))
         name_rect_right = name_surfaceP2.get_rect(center=(
             right_x + (preview_width // 2),
-            right_y + preview_height + 15
+            right_y + preview_height + 20
         ))
         self.screen.blit(name_surface, name_rect_left)
         self.screen.blit(name_surfaceP2, name_rect_right)
