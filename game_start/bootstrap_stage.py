@@ -11,6 +11,7 @@ class BootStrapStage:
 
         self.current_menu = "main"
         self.main_options = ["Arcade", "Versus", "Options"]
+        self.credits_option = "Credits"
         self.main_selected_idx = 0
         self.options_selected_idx = 0
         self.status_message = ""
@@ -24,7 +25,27 @@ class BootStrapStage:
 
         self.title_font = pygame.font.SysFont('Veranda', 56)
         self.option_font = pygame.font.SysFont('Veranda', 38)
+        self.small_option_font = pygame.font.SysFont('Veranda', 24)
         self.help_font = pygame.font.SysFont('Veranda', 20)
+        self.credits_font = pygame.font.SysFont('Veranda', 28)
+
+        self.credits_lines = [
+            "CS407 Fighting Game",
+            "",
+            "Created by",
+            "Derek Mohr (The Idea Guy)",
+            "Dylan Melnick (The Pygame Expert)",
+            "Brock Kitterman (The Music Guy)",
+            "Josh Keane (The Artist)",
+            "Jackson Burke (The Bum)",
+            "",
+            "Press B or ESC to return"
+        ]
+        self.credits_scroll_y = self.HEIGHT - 70
+        self.credits_line_spacing = 44
+        self.credits_scroll_speed = .04  # Increase this for faster scrolling
+        self.credits_top_limit = 145
+        self.credits_bottom_limit = self.HEIGHT - 60
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("FIGHTING GAME")
@@ -43,15 +64,23 @@ class BootStrapStage:
                     exit()
 
                 if self.current_menu == "main":
+                    total_main_items = len(self.main_options) + 1
+
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
-                        self.main_selected_idx = (self.main_selected_idx - 1) % len(self.main_options)
+                        self.main_selected_idx = (self.main_selected_idx - 1) % total_main_items
                         self.status_message = ""
 
                     if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                        self.main_selected_idx = (self.main_selected_idx + 1) % len(self.main_options)
+                        self.main_selected_idx = (self.main_selected_idx + 1) % total_main_items
                         self.status_message = ""
 
                     if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                        if self.main_selected_idx == len(self.main_options):
+                            self.current_menu = "credits"
+                            self.credits_scroll_y = self.credits_bottom_limit
+                            self.status_message = ""
+                            continue
+
                         selected_mode = self.main_options[self.main_selected_idx]
                         if selected_mode == "Arcade":
                             self.two_player = False
@@ -90,6 +119,11 @@ class BootStrapStage:
                             self.current_menu = "main"
                             self.status_message = ""
 
+                elif self.current_menu == "credits":
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_b:
+                        self.current_menu = "main"
+                        self.status_message = ""
+
         self.draw()
 
     def draw(self):
@@ -97,8 +131,10 @@ class BootStrapStage:
 
         if self.current_menu == "main":
             self.draw_main_menu()
-        else:
+        elif self.current_menu == "options":
             self.draw_options_menu()
+        else:
+            self.draw_credits_menu()
 
         if self.status_message != "":
             status_surface = self.help_font.render(self.status_message, True, self.BLACK)
@@ -121,6 +157,11 @@ class BootStrapStage:
             option_surface = self.option_font.render(option, True, color)
             option_rect = option_surface.get_rect(center=(self.WIDTH // 2, start_y + idx * spacing))
             self.screen.blit(option_surface, option_rect)
+
+        credits_color = self.CRIMSON if self.main_selected_idx == len(self.main_options) else self.GRAY
+        credits_surface = self.small_option_font.render(self.credits_option, True, credits_color)
+        credits_rect = credits_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 78))
+        self.screen.blit(credits_surface, credits_rect)
 
         help_surface = self.help_font.render("Use W/S or UP/DOWN to move, ENTER to select, Q to quit.", True, self.GRAY)
         help_rect = help_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 40))
@@ -148,4 +189,26 @@ class BootStrapStage:
         help_surface = self.help_font.render(
             "UP/DOWN selects. LEFT/RIGHT changes values. ENTER confirms. B/ESC returns.", True, self.GRAY)
         help_rect = help_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 40))
+        self.screen.blit(help_surface, help_rect)
+
+    def draw_credits_menu(self):
+        title_surface = self.title_font.render("Credits", True, self.BLACK)
+        title_rect = title_surface.get_rect(center=(self.WIDTH // 2, 70))
+        self.screen.blit(title_surface, title_rect)
+
+        y = self.credits_scroll_y
+        for line in self.credits_lines:
+            line_surface = self.credits_font.render(line, True, self.GRAY)
+            line_rect = line_surface.get_rect(center=(self.WIDTH // 2, y))
+            if line_rect.bottom > self.credits_top_limit and line_rect.top < self.credits_bottom_limit:
+                self.screen.blit(line_surface, line_rect)
+            y += self.credits_line_spacing
+
+        self.credits_scroll_y -= self.credits_scroll_speed
+        total_height = len(self.credits_lines) * self.credits_line_spacing
+        if self.credits_scroll_y + total_height < self.credits_top_limit:
+            self.credits_scroll_y = self.credits_bottom_limit
+
+        help_surface = self.help_font.render("Press B or ESC to return.", True, self.GRAY)
+        help_rect = help_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 30))
         self.screen.blit(help_surface, help_rect)
