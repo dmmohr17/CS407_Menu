@@ -18,6 +18,7 @@ class PickCharactersStage:
         self.p2_selected = False
 
         self.instruction_font = pygame.font.SysFont('Veranda', 20)
+        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 32)
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -25,6 +26,7 @@ class PickCharactersStage:
         self.CREME = (255, 255, 220)
         self.BLACK = (0, 0, 0)
         self.PURPLE = (160, 32, 240)
+        self.GREEN = (26, 224, 0)
 
         # character icons on select grid
         self.character_images = [
@@ -162,6 +164,7 @@ class PickCharactersStage:
                 if event.key == pygame.K_q:
                     exit()
 
+
                 if event.key == pygame.K_b:
                     return ("BOOTSTRAP", {})
 
@@ -256,16 +259,20 @@ class PickCharactersStage:
                     else:
                         return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
                 elif(self.two_player == True):
-                    if(event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and self.p2_selected == False:
+                    if(event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN):
                         self.select_sound.play()
-                        self.p2_selected = True
-                    if event.key == pygame.K_e and self.p1_selected == False:
+                        self.p2_selected = not self.p2_selected
+                    if event.key == pygame.K_e:
                         self.select_sound.play()
-                        self.p1_selected = True
-
+                        self.p1_selected = not self.p1_selected
+                    
                     if self.p1_selected == True and self.p2_selected == True:
-                        return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                        pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT+1), 500)
+
                 self.click_sound.play()
+            elif event.type == pygame.USEREVENT+1:
+                if self.p1_selected == True and self.p2_selected == True:   # go to next screen after a short delay to allow players to deselect last-second
+                    return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
         self.draw()
 
@@ -421,7 +428,7 @@ class PickCharactersStage:
                 self.screen.blit(star1, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
-    def draw_stats(self, plr: int, left_x: int, right_x: int, width: int, y_offset: int, rect):
+    def draw_stats(self, plr: int, left_x: int, right_x: int, width: int, y_offset: int):   # takes a bunch of args so it'll align with the preview even if it moves
         hp_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/hp_icon.svg"), (20, 20))
         str_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/str_icon.svg"), (20, 20))
         spd_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/spd_icon.svg"), (20, 20))
@@ -487,6 +494,19 @@ class PickCharactersStage:
                     self.screen.blit(filled, (right_x+25+(i*23), y_offset+44))
                 else:
                     self.screen.blit(hollow, (right_x+25+(i*23), y_offset+44))
+    
+    def draw_ready(self, plr):
+        if plr == 1:
+            pygame.draw.rect(self.screen, self.BLACK,
+            (40, 10, 100, 38), 2)
+            text_surface = self.ready_font.render("Ready", True, self.GREEN)
+            self.screen.blit(text_surface, (46, 10))
+        elif plr == 2:
+            pygame.draw.rect(self.screen, self.BLACK,
+            (self.WIDTH-145, 10, 100, 38), 2)
+            text_surface = self.ready_font.render("Ready", True, self.GREEN)
+            self.screen.blit(text_surface, (self.WIDTH-138, 10))
+            
 
     def draw(self):
         self.screen.fill(self.CREME)
@@ -592,7 +612,7 @@ class PickCharactersStage:
 
         # skip drawing difficulty if stats menu is open
         if self.show_stats:
-            self.draw_stats(1, left_x, right_x, preview_width, left_y+preview_height+30, rect)
+            self.draw_stats(1, left_x, right_x, preview_width, left_y+preview_height+30)
         else:
             difficulty1_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_left = difficulty1_text.get_rect(center=(
@@ -604,7 +624,7 @@ class PickCharactersStage:
             self.draw_difficulty(plr=1, rect=rect)
 
         if self.show_statsP2:   # since the show_stats are set to False when changing selection, the "Difficulty" text will already be drawn, no need to do it again
-            self.draw_stats(2, left_x, right_x, preview_width, right_y+preview_height+30, rect)
+            self.draw_stats(2, left_x, right_x, preview_width, right_y+preview_height+30)
         else:
             difficulty2_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_right = difficulty2_text.get_rect(center=(
@@ -613,6 +633,11 @@ class PickCharactersStage:
             ))
             self.screen.blit(difficulty2_text, diff_rect_right)
             self.draw_difficulty(plr=2, rect=rect)
+
+        if self.p1_selected == True:
+            self.draw_ready(1)
+        if self.p2_selected == True:
+            self.draw_ready(2)
 
         text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
         self.screen.blit(text_surface, (40, 480))
