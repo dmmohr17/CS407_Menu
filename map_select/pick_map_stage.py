@@ -135,10 +135,10 @@ class PickMapStage:
 
         text_surface = self.instruction_font.render("B for back     -", True, (0, 0, 0))
         self.screen.blit(text_surface, (40, 470))
-        text_surface = self.instruction_font.render("Left/Right arrows to switch map        -       Up/Down arrows to flip map      -", True, (0, 0, 0))
-        self.screen.blit(text_surface, (140, 470))
+        text_surface = self.instruction_font.render("Left/Right arrows to switch map    -    Up/Down arrows to flip map    -", True, (0, 0, 0))
+        self.screen.blit(text_surface, (145, 470))
         text_surface = self.instruction_font.render("Enter or E to begin match", True, (0, 0, 0))
-        self.screen.blit(text_surface, (630, 470))
+        self.screen.blit(text_surface, (600, 470))
         
         # original
         # self.screen.blit(text_surface, (190, 100))
