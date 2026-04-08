@@ -1,33 +1,37 @@
 import pygame
 
+
 class BootStrapStage:
     def __init__(self):
         pygame.init()
 
         self.arena = False
         self.lives = 3
-
         self.two_player = False
 
-        self.selectedIdx = 0
+        self.current_menu = "main"
+        self.main_options = ["Arcade", "Versus", "Options"]
+        self.main_selected_idx = 0
+        self.options_selected_idx = 0
+        self.status_message = ""
 
         self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
         self.BLACK = (0, 0, 0)
+        self.CRIMSON = (154, 23, 37)
 
-        self.game_over_font = pygame.font.SysFont('Veranda', 30)
-        self.arena_message_font = pygame.font.SysFont('Veranda', 20)
+        self.title_font = pygame.font.SysFont('Veranda', 56)
+        self.option_font = pygame.font.SysFont('Veranda', 38)
+        self.help_font = pygame.font.SysFont('Veranda', 20)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
-        pygame.display.set_caption("Welcome, Players!")
-        
+        pygame.display.set_caption("FIGHTING GAME")
+
         pygame.mixer.init()
         pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
-        pygame.mixer.music.play(start=1.0, loops=-1) 
-        
-
+        pygame.mixer.music.play(start=1.0, loops=-1)
 
     def updateGameplay(self):
         for event in pygame.event.get():
@@ -37,45 +41,111 @@ class BootStrapStage:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     exit()
-                
-                if event.key == pygame.K_a:
-                    self.arena = not self.arena
-                
-                if event.key == pygame.K_RIGHT:
-                    self.lives = self.lives + 1
 
-                if event.key == pygame.K_LEFT:
-                    self.lives = self.lives - 1
+                if self.current_menu == "main":
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        self.main_selected_idx = (self.main_selected_idx - 1) % len(self.main_options)
+                        self.status_message = ""
 
-                if event.key == pygame.K_w:
-                    self.two_player = not self.two_player
-                
-                if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
-                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                        self.main_selected_idx = (self.main_selected_idx + 1) % len(self.main_options)
+                        self.status_message = ""
+
+                    if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                        selected_mode = self.main_options[self.main_selected_idx]
+                        if selected_mode == "Arcade":
+                            self.two_player = False
+                            return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                        if selected_mode == "Versus":
+                            self.two_player = True
+                            return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                        self.current_menu = "options"
+                        self.options_selected_idx = 0
+                        self.status_message = ""
+
+                elif self.current_menu == "options":
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_b:
+                        self.current_menu = "main"
+                        self.status_message = ""
+
+                    if event.key == pygame.K_UP or event.key == pygame.K_w:
+                        self.options_selected_idx = (self.options_selected_idx - 1) % 3
+
+                    if event.key == pygame.K_DOWN or event.key == pygame.K_s:
+                        self.options_selected_idx = (self.options_selected_idx + 1) % 3
+
+                    if event.key in (pygame.K_LEFT, pygame.K_a, pygame.K_RIGHT, pygame.K_d):
+                        if self.options_selected_idx == 0:
+                            self.arena = not self.arena
+                        elif self.options_selected_idx == 1:
+                            if event.key in (pygame.K_LEFT, pygame.K_a):
+                                self.lives = max(1, self.lives - 1)
+                            else:
+                                self.lives = min(10, self.lives + 1)
+
+                    if event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN:
+                        if self.options_selected_idx == 0:
+                            self.arena = not self.arena
+                        elif self.options_selected_idx == 2:
+                            self.current_menu = "main"
+                            self.status_message = ""
 
         self.draw()
 
     def draw(self):
         self.screen.fill(self.CREME)
 
-        text_surface = self.arena_message_font.render("Each character has " + str(self.lives) + " lives (use R_ARROW and L_ARROW to change).", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 400))
-
-        if self.arena == True:
-            text_surface = self.arena_message_font.render("Press 'a' to disable arena mode.", True, self.GRAY)
+        if self.current_menu == "main":
+            self.draw_main_menu()
         else:
-            text_surface = self.arena_message_font.render("Press 'a' to enable arena mode.", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 425))
-        
-        text_surface = self.arena_message_font.render("Press 'q' to quit.", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 450))
+            self.draw_options_menu()
 
-        if self.two_player == True:
-            text_surface = self.arena_message_font.render("Press 'w' to disable two player.", True, self.GRAY)
-        else:
-            text_surface = self.arena_message_font.render("Press 'w' to enable two player.", True, self.GRAY)
-        self.screen.blit(text_surface, (30, 475))
+        if self.status_message != "":
+            status_surface = self.help_font.render(self.status_message, True, self.BLACK)
+            status_rect = status_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 70))
+            self.screen.blit(status_surface, status_rect)
 
         pygame.display.flip()
-    
+
         return None
+
+    def draw_main_menu(self):
+        title_surface = self.title_font.render("FIGHTING GAME", True, self.BLACK)
+        title_rect = title_surface.get_rect(center=(self.WIDTH // 2, 110))
+        self.screen.blit(title_surface, title_rect)
+
+        start_y = 220
+        spacing = 70
+        for idx, option in enumerate(self.main_options):
+            color = self.CRIMSON if idx == self.main_selected_idx else self.GRAY
+            option_surface = self.option_font.render(option, True, color)
+            option_rect = option_surface.get_rect(center=(self.WIDTH // 2, start_y + idx * spacing))
+            self.screen.blit(option_surface, option_rect)
+
+        help_surface = self.help_font.render("Use W/S or UP/DOWN to move, ENTER to select, Q to quit.", True, self.GRAY)
+        help_rect = help_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 40))
+        self.screen.blit(help_surface, help_rect)
+
+    def draw_options_menu(self):
+        title_surface = self.title_font.render("Options", True, self.BLACK)
+        title_rect = title_surface.get_rect(center=(self.WIDTH // 2, 110))
+        self.screen.blit(title_surface, title_rect)
+
+        option_labels = [
+            f"Arena: {'On' if self.arena else 'Off'}",
+            f"Lives: {self.lives}",
+            "Back"
+        ]
+
+        start_y = 220
+        spacing = 70
+        for idx, option in enumerate(option_labels):
+            color = self.CRIMSON if idx == self.options_selected_idx else self.GRAY
+            option_surface = self.option_font.render(option, True, color)
+            option_rect = option_surface.get_rect(center=(self.WIDTH // 2, start_y + idx * spacing))
+            self.screen.blit(option_surface, option_rect)
+
+        help_surface = self.help_font.render(
+            "UP/DOWN selects. LEFT/RIGHT changes values. ENTER confirms. B/ESC returns.", True, self.GRAY)
+        help_rect = help_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 40))
+        self.screen.blit(help_surface, help_rect)
