@@ -499,14 +499,14 @@ class PickCharactersStage:
     def draw_ready(self, plr):
         if plr == 1:
             pygame.draw.rect(self.screen, self.BLACK,
-            (15, 195, 150, 70), 100)
+            (15, 185, 150, 70), 100)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (20, 200))
+            self.screen.blit(text_surface, (20, 190))
         elif plr == 2:
             pygame.draw.rect(self.screen, self.BLACK,
-            (self.WIDTH-165, 195, 150, 70), 100)
+            (self.WIDTH-165, 185, 150, 70), 100)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (self.WIDTH-160, 200))
+            self.screen.blit(text_surface, (self.WIDTH-160, 190))
             
 
     def draw(self):
