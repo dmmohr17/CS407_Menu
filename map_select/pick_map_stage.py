@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import map_select.revolvingQueue_utils
+import time;
 from gameplay.gameplay_stage import GamePlayStage
 
 class PickMapStage:
@@ -64,6 +65,7 @@ class PickMapStage:
         self.click_sound = pygame.mixer.Sound("image_reference/sounds/click.mp3")
         self.card_flip_sound = pygame.mixer.Sound("image_reference/sounds/cardFlip.mp3")
         self.select_sound = pygame.mixer.Sound("image_reference/sounds/select.mp3")
+        self.elephant_sound = pygame.mixer.Sound("image_reference/sounds/elephant.mp3");
 
         return
 
@@ -108,6 +110,8 @@ class PickMapStage:
                     if self.check_ready == False:
                         self.check_ready = True
                     else:
+                        self.elephant_sound.play();
+                        time.sleep(2);
                         return ("BOOTSTRAP", {})
                     
                     # gameplay stages currently broken, so removed this
