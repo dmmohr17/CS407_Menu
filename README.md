@@ -9,6 +9,7 @@ python main.py
 python.exe main.py # In case of issues on Windows, use this version
 ```
 To run this program on linux WSL (Ubuntu), navigate to `main.py` and press `ctrl` + `f5`.
+
 ***NOTE***: This program requires little in terms of hardware, but is expected to have a working keyboard with all basic keys, numpad not required. 
 
 **Requirements**
