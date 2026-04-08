@@ -53,7 +53,7 @@ class BootStrapStage:
 
         pygame.mixer.init()
         pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
-        # pygame.mixer.music.play(start=1.0, loops=-1)
+        pygame.mixer.music.play(start=1.0, loops=-1)
 
     def updateGameplay(self):
         for event in pygame.event.get():
@@ -147,7 +147,7 @@ class BootStrapStage:
         return None
 
     def draw_main_menu(self):
-        title_surface = self.title_font.render("FIGHTING GAME", True, self.BLACK)
+        title_surface = self.title_font.render("BAMA BASH", True, self.CRIMSON)
         title_rect = title_surface.get_rect(center=(self.WIDTH // 2, 110))
         self.screen.blit(title_surface, title_rect)
 

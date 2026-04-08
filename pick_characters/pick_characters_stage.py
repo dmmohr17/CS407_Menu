@@ -18,7 +18,7 @@ class PickCharactersStage:
         self.p2_selected = False
 
         self.instruction_font = pygame.font.SysFont("pick_characters/DIMIS___.TTF", 20)
-        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 32)
+        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 50)
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -499,14 +499,14 @@ class PickCharactersStage:
     def draw_ready(self, plr):
         if plr == 1:
             pygame.draw.rect(self.screen, self.BLACK,
-            (40, 10, 100, 38), 2)
+            (15, 195, 150, 70), 100)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (46, 10))
+            self.screen.blit(text_surface, (20, 200))
         elif plr == 2:
             pygame.draw.rect(self.screen, self.BLACK,
-            (self.WIDTH-145, 10, 100, 38), 2)
+            (self.WIDTH-165, 195, 150, 70), 100)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (self.WIDTH-138, 10))
+            self.screen.blit(text_surface, (self.WIDTH-160, 200))
             
 
     def draw(self):
@@ -522,8 +522,8 @@ class PickCharactersStage:
         # text for players 1 & 2
         player1_text = self.player1_font.render("Player 1", True, self.BLUE)
         player2_text = self.player2_font.render("Player 2", True, self.RED)
-        self.screen.blit(player1_text, (50, 50))
-        self.screen.blit(player2_text, (self.WIDTH - 135, 50))
+        self.screen.blit(player1_text, (40, 30))
+        self.screen.blit(player2_text, (self.WIDTH - 145, 30))
 
         # self.screen.blit(text_surface, (190, 450))
 
@@ -578,12 +578,14 @@ class PickCharactersStage:
         preview_pic = pygame.transform.scale(selected_char, (preview_width, preview_height))
 
         left_x = 15
-        left_y = ((self.HEIGHT - preview_height) // 2) - 20
+        left_y = ((self.HEIGHT - preview_height) // 2) - 35
+        left_y_alt = ((self.HEIGHT - preview_height) // 2) - 25
         self.screen.blit(preview_pic, (left_x, left_y))
         
         preview_pic = pygame.transform.scale(selected_charP2, (preview_width, preview_height))
         right_x = self.WIDTH - preview_width - 15
-        right_y = ((self.HEIGHT - preview_height) // 2) - 20
+        right_y = ((self.HEIGHT - preview_height) // 2) - 35
+        right_y_alt = ((self.HEIGHT - preview_height) // 2) - 25
         flip = pygame.transform.flip(preview_pic, True, False)
         self.screen.blit(flip, (right_x, right_y))
 
@@ -613,24 +615,24 @@ class PickCharactersStage:
 
         # skip drawing difficulty if stats menu is open
         if self.show_stats:
-            self.draw_stats(1, left_x, right_x, preview_width, left_y+preview_height+30)
+            self.draw_stats(1, left_x, right_x, preview_width, left_y_alt+preview_height+30)
         else:
             difficulty1_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_left = difficulty1_text.get_rect(center=(
                 left_x + (preview_width // 2),
-                left_y + preview_height + 45
+                left_y_alt + preview_height + 45
             ))
             self.screen.blit(difficulty1_text, diff_rect_left)
             # moved draw difficulty to a function for better comprehension, and moved it out of the loop bc it was being drawn rows*cols times
             self.draw_difficulty(plr=1, rect=rect)
 
         if self.show_statsP2:   # since the show_stats are set to False when changing selection, the "Difficulty" text will already be drawn, no need to do it again
-            self.draw_stats(2, left_x, right_x, preview_width, right_y+preview_height+30)
+            self.draw_stats(2, left_x, right_x, preview_width, right_y_alt+preview_height+30)
         else:
             difficulty2_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_right = difficulty2_text.get_rect(center=(
                 right_x + (preview_width // 2),
-                right_y + preview_height + 45
+                right_y_alt + preview_height + 45
             ))
             self.screen.blit(difficulty2_text, diff_rect_right)
             self.draw_difficulty(plr=2, rect=rect)
