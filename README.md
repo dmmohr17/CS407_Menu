@@ -6,8 +6,4 @@
 **TODO**
 * Add sounds - character and stage names
 * Add ability to backtrack through selections (deselect character without going back home)
-* Add a "READY" popup after selecting character
-* Add "more details" popup menu to character select
 * Polish all screens - colors, text, etc.
-* add "confirm" option after choosing stage
-* Create home screen

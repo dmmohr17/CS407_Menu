@@ -23,10 +23,12 @@ class PickMapStage:
         self.SCALE_INT = 150
 
         self.flipped = False
+        self.check_ready = False
 
         self.my_font = pygame.font.SysFont('Veranda', 60)
         self.stage_font = pygame.font.SysFont('Veranda', 30)
         self.instruction_font = pygame.font.SysFont('Veranda', 20)
+        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 200)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Pick Arena")
@@ -76,7 +78,10 @@ class PickMapStage:
                     exit()
                 
                 if event.key == pygame.K_b:
-                    return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
+                    if self.check_ready == True:
+                        self.check_ready = False
+                    else:
+                        return ("PICK_CHARACTERS", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_s or event.key == pygame.K_w:
                     self.card_flip_sound.play()
@@ -100,7 +105,10 @@ class PickMapStage:
                     self.select_sound.play()
                     print("select")
 
-                    return ("BOOTSTRAP", {})
+                    if self.check_ready == False:
+                        self.check_ready = True
+                    else:
+                        return ("BOOTSTRAP", {})
                     
                     # gameplay stages currently broken, so removed this
                     #return ("GAMEPLAY", {
@@ -146,6 +154,23 @@ class PickMapStage:
 
             back_text = self.instruction_font.render("B: Back", True, self.BLACK)
             self.screen.blit(back_text, (20, 470))
+
+        if(self.check_ready) == True:
+            text_surface = self.ready_font.render("Ready?", True, (255, 0, 0))
+            text_rect = text_surface.get_rect()
+            text_rect.center = (self.WIDTH // 2, self.HEIGHT // 2)
+
+            padding = 10
+            bg_rect = pygame.Rect(
+                0,
+                text_rect.top - padding,
+                self.WIDTH,
+                text_rect.height + padding*2
+            )
+            bg_surface = pygame.Surface((bg_rect.width, bg_rect.height), pygame.SRCALPHA)
+            bg_surface.fill((0, 0, 0, 200))
+            self.screen.blit(bg_surface, (bg_rect.left, bg_rect.top))
+            self.screen.blit(text_surface, text_rect.topleft)
 
         pygame.display.flip()
     
