@@ -1,5 +1,13 @@
-**How to Run**
+**How to Download and Install**
 * Requires download of Python and Pygame. Our group ran the project using a virtual environment on VSCode (but not required)
+* Download this repo and initialize all submodules:
+bash ```
+  git pull https://github.com/dmmohr17/CS407_Menu.git
+  cd CS407_Menu
+  git submodule update --init --recursive
+```
+
+**How to Run**
 * [main](main.py) runs the game
 * Button commands are displayed at the bottom of the screen. Use WASD as player one to navigate the menu, and the arrows as player two
 
