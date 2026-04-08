@@ -192,6 +192,8 @@ class PickCharactersStage:
                         self.selectedAltIdx = (self.selectedAltIdx + 2)% 3
                     elif event.key == pygame.K_LSHIFT:
                         self.show_stats = not self.show_stats
+                    elif event.key == pygame.K_RSHIFT and self.two_player == False:
+                        self.show_stats = not self.show_stats
                     self.selectedIdx = row * cols + col
 
                 if self.two_player == True and self.p2_selected == False:
@@ -243,6 +245,8 @@ class PickCharactersStage:
                         self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 1)% 3
                     elif event.key == pygame.K_t:
                         self.selectedAltIdxP2 = (self.selectedAltIdxP2 + 2)% 3
+                    elif event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT:
+                        self.show_statsP2 = not self.show_statsP2
                     self.selectedIdxP2 = rowP2 * colsP2 + colP2
                 
                 if (event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN or event.key == pygame.K_e) and self.two_player == False:
@@ -611,7 +615,7 @@ class PickCharactersStage:
             self.draw_difficulty(plr=2, rect=rect)
 
         text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
-        self.screen.blit(text_surface, (50, 480))
+        self.screen.blit(text_surface, (40, 480))
         if(self.two_player == True):
             text_surface = self.instruction_font.render("-    P1: WASD = Move, E = Select, R/T = Color      -      P2: Arrows = Move, Enter = Select, [ / ] = Color  ", True, (0, 0, 0))
             self.screen.blit(text_surface, (150, 480))
@@ -621,10 +625,10 @@ class PickCharactersStage:
             rect = text_surface.get_rect(topright=(self.WIDTH-175, 450))
             self.screen.blit(text_surface, rect)
         else:
-            text_surface = self.instruction_font.render("-      WASD to switch character      -    R T to select color      -", True, (0, 0, 0))
-            self.screen.blit(text_surface, (150, 470))
+            text_surface = self.instruction_font.render("-  WASD to switch character  -  R T to select color  -  Shift for Stats  -", True, (0, 0, 0))
+            self.screen.blit(text_surface, (110, 480))
             text_surface = self.instruction_font.render("Enter or E to select character", True, (0, 0, 0))
-            self.screen.blit(text_surface, (550, 470))
+            self.screen.blit(text_surface, (550, 480))
 
         pygame.display.flip()
     
