@@ -20,12 +20,13 @@ class BootStrapStage:
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
+        self.PINK = (220, 180, 160)
         self.BLACK = (0, 0, 0)
         self.CRIMSON = (154, 23, 37)
 
-        self.title_font = pygame.font.SysFont('Veranda', 56)
-        self.option_font = pygame.font.SysFont('Veranda', 38)
-        self.small_option_font = pygame.font.SysFont('Veranda', 24)
+        self.title_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 56)
+        self.option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 38)
+        self.small_option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 20)
         self.help_font = pygame.font.SysFont('Veranda', 20)
         self.credits_font = pygame.font.SysFont('Veranda', 28)
 
@@ -127,7 +128,7 @@ class BootStrapStage:
         self.draw()
 
     def draw(self):
-        self.screen.fill(self.CREME)
+        self.screen.fill(self.PINK)
 
         if self.current_menu == "main":
             self.draw_main_menu()
@@ -160,7 +161,7 @@ class BootStrapStage:
 
         credits_color = self.CRIMSON if self.main_selected_idx == len(self.main_options) else self.GRAY
         credits_surface = self.small_option_font.render(self.credits_option, True, credits_color)
-        credits_rect = credits_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 78))
+        credits_rect = credits_surface.get_rect(center=(self.WIDTH // 2, self.HEIGHT - 84))
         self.screen.blit(credits_surface, credits_rect)
 
         help_surface = self.help_font.render("Use W/S or UP/DOWN to move, ENTER to select, Q to quit.", True, self.GRAY)
