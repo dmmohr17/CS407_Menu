@@ -17,14 +17,13 @@ class PickCharactersStage:
         self.p1_selected = False
         self.p2_selected = False
 
-        self.instruction_font = pygame.font.SysFont("pick_characters/DIMIS___.TTF", 20)
-        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 50)
+        self.instruction_font = pygame.font.SysFont('Veranda', 20)
+        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 32)
 
         self.WIDTH = 800
         self.HEIGHT = 500
         self.GRAY = (34, 34, 34)
         self.CREME = (255, 255, 220)
-        self.PINK = (220, 180, 160)
         self.BLACK = (0, 0, 0)
         self.PURPLE = (160, 32, 240)
         self.GREEN = (26, 224, 0)
@@ -137,12 +136,12 @@ class PickCharactersStage:
         self.show_stats = False
         self.show_statsP2 = False
 
-        self.game_over_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 23)
-        self.arena_message_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 40)
-        self.difficulty_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 18)
+        self.game_over_font = pygame.font.SysFont('Veranda', 30)
+        self.arena_message_font = pygame.font.SysFont('Veranda', 50)
+        self.difficulty_font = pygame.font.SysFont('Veranda', 25)
 
-        self.player1_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
-        self.player2_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
+        self.player1_font = pygame.font.SysFont('Veranda', 30)
+        self.player2_font = pygame.font.SysFont('Veranda', 30)
         self.BLUE = (0, 0, 255)
         self.RED = (255, 0, 0)
 
@@ -268,11 +267,11 @@ class PickCharactersStage:
                         self.p1_selected = not self.p1_selected
                     
                     if self.p1_selected == True and self.p2_selected == True:
-                        pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT+1), 500)
+                        pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT+1), millis=500, loops=1)  # wait this long before going to next screen
 
                 self.click_sound.play()
             elif event.type == pygame.USEREVENT+1:
-                if self.p1_selected == True and self.p2_selected == True:   # go to next screen after a short delay to allow players to deselect last-second
+                if self.p1_selected == True and self.p2_selected == True:   # allow players the chance to unselect before the above timer is up
                     return ("PICK_MAP", {"arena": self.arena, "lives": self.lives, "two_player": self.two_player})
 
         self.draw()
@@ -285,8 +284,8 @@ class PickCharactersStage:
             diff = self.character_diff[self.selectedIdx]
             if diff == 1:
                 # render 1 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (25, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (50, 435))
@@ -299,8 +298,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 2:
                 # render 2 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (25, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (50, 435))
@@ -313,8 +312,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 3:
                 # render 3 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (25, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (50, 435))
@@ -327,8 +326,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 4:
                 # render 4 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (25, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (50, 435))
@@ -341,8 +340,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 5:
                 # render 5 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (25, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (50, 435))
@@ -360,8 +359,8 @@ class PickCharactersStage:
             right_side = 800
             if diff == 1:
                 # render 1 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (right_side - 150, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star2, (right_side - 125, 435))
@@ -374,8 +373,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 2:
                 # render 2 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (right_side - 150, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (right_side - 125, 435))
@@ -388,8 +387,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 3:
                 # render 3 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (right_side - 150, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (right_side - 125, 435))
@@ -402,8 +401,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 4:
                 # render 4 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (right_side - 150, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (right_side - 125, 435))
@@ -416,8 +415,8 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
             elif diff == 5:
                 # render 5 star
-                star1 = pygame.transform.scale(fill, (25, 25))
-                star2 = pygame.transform.scale(hollow, (25, 25))
+                star1 = pygame.transform.smoothscale(fill, (25, 25))
+                star2 = pygame.transform.smoothscale(hollow, (25, 25))
                 self.screen.blit(star1, (right_side - 150, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
                 self.screen.blit(star1, (right_side - 125, 435))
@@ -429,7 +428,7 @@ class PickCharactersStage:
                 self.screen.blit(star1, (right_side - 50, 435))
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
-    def draw_stats(self, plr: int, left_x: int, right_x: int, width: int, y_offset: int):   # takes a bunch of args so it'll align with the preview even if it moves
+    def draw_stats(self, plr: int, x_offset: int, width: int, y_offset: int):   # takes a bunch of args so it'll align with the preview even if it is moved later
         hp_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/hp_icon.svg"), (20, 20))
         str_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/str_icon.svg"), (20, 20))
         spd_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/spd_icon.svg"), (20, 20))
@@ -438,79 +437,79 @@ class PickCharactersStage:
         if plr == 1:
             panel_padding = 3
             pygame.draw.rect(self.screen, self.BLACK,
-                (left_x - panel_padding, y_offset - panel_padding,
+                (x_offset - panel_padding, y_offset - panel_padding,
                 width + panel_padding*2, 64 + panel_padding*2), 2)
             
-            self.screen.blit(hp_icon, (left_x, y_offset))
+            self.screen.blit(hp_icon, (x_offset, y_offset))
             hp_stat = self.character_stats[self.selectedIdx][0]
             for i, star in enumerate(([True]*hp_stat)+([False]*(5-hp_stat))):
                 if star:
-                    self.screen.blit(filled, (left_x+25+(i*23), y_offset))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset))
                 else:
-                    self.screen.blit(hollow, (left_x+25+(i*23), y_offset))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset))
 
-            self.screen.blit(str_icon, (left_x, y_offset+22))
+            self.screen.blit(str_icon, (x_offset, y_offset+22))
             str_stat = self.character_stats[self.selectedIdx][1]
             for i, star in enumerate(([True]*str_stat)+([False]*(5-str_stat))):
                 if star:
-                    self.screen.blit(filled, (left_x+25+(i*23), y_offset+22))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset+22))
                 else:
-                    self.screen.blit(hollow, (left_x+25+(i*23), y_offset+22))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset+22))
 
-            self.screen.blit(spd_icon, (left_x, y_offset+44))
+            self.screen.blit(spd_icon, (x_offset, y_offset+44))
             spd_stat = self.character_stats[self.selectedIdx][2]
             for i, star in enumerate(([True]*spd_stat)+([False]*(5-spd_stat))):
                 if star:
-                    self.screen.blit(filled, (left_x+25+(i*23), y_offset+44))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset+44))
                 else:
-                    self.screen.blit(hollow, (left_x+25+(i*23), y_offset+44))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset+44))
 
             
         elif plr == 2:
             panel_padding = 3
             pygame.draw.rect(self.screen, self.BLACK,
-                (right_x - panel_padding, y_offset - panel_padding,
+                (x_offset - panel_padding, y_offset - panel_padding,
                 width + panel_padding*2, 64 + panel_padding*2), 2)
             
-            self.screen.blit(hp_icon, (right_x, y_offset))
+            self.screen.blit(hp_icon, (x_offset, y_offset))
             hp_stat = self.character_stats[self.selectedIdxP2][0]
             for i, star in enumerate(([True]*hp_stat)+([False]*(5-hp_stat))):
                 if star:
-                    self.screen.blit(filled, (right_x+25+(i*23), y_offset))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset))
                 else:
-                    self.screen.blit(hollow, (right_x+25+(i*23), y_offset))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset))
             
-            self.screen.blit(str_icon, (right_x, y_offset+22))
+            self.screen.blit(str_icon, (x_offset, y_offset+22))
             str_stat = self.character_stats[self.selectedIdxP2][1]
             for i, star in enumerate(([True]*str_stat)+([False]*(5-str_stat))):
                 if star:
-                    self.screen.blit(filled, (right_x+25+(i*23), y_offset+22))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset+22))
                 else:
-                    self.screen.blit(hollow, (right_x+25+(i*23), y_offset+22))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset+22))
 
-            self.screen.blit(spd_icon, (right_x, y_offset+44))
+            self.screen.blit(spd_icon, (x_offset, y_offset+44))
             spd_stat = self.character_stats[self.selectedIdxP2][2]
             for i, star in enumerate(([True]*spd_stat)+([False]*(5-spd_stat))):
                 if star:
-                    self.screen.blit(filled, (right_x+25+(i*23), y_offset+44))
+                    self.screen.blit(filled, (x_offset+25+(i*23), y_offset+44))
                 else:
-                    self.screen.blit(hollow, (right_x+25+(i*23), y_offset+44))
+                    self.screen.blit(hollow, (x_offset+25+(i*23), y_offset+44))
     
     def draw_ready(self, plr):
         if plr == 1:
             pygame.draw.rect(self.screen, self.BLACK,
-            (15, 185, 150, 70), 100)
+            (40, 10, 100, 38), 2)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (20, 190))
+            self.screen.blit(text_surface, (46, 10))
         elif plr == 2:
             pygame.draw.rect(self.screen, self.BLACK,
-            (self.WIDTH-165, 185, 150, 70), 100)
+            (self.WIDTH-145, 10, 100, 38), 2)
             text_surface = self.ready_font.render("Ready", True, self.GREEN)
-            self.screen.blit(text_surface, (self.WIDTH-160, 190))
-            
+            self.screen.blit(text_surface, (self.WIDTH-138, 10))
+
 
     def draw(self):
-        self.screen.fill(self.PINK)
+        self.screen.fill(self.CREME)
 
         text_surface = self.arena_message_font.render("Select Your Fighter", True, self.GRAY)
 
@@ -522,8 +521,8 @@ class PickCharactersStage:
         # text for players 1 & 2
         player1_text = self.player1_font.render("Player 1", True, self.BLUE)
         player2_text = self.player2_font.render("Player 2", True, self.RED)
-        self.screen.blit(player1_text, (40, 30))
-        self.screen.blit(player2_text, (self.WIDTH - 145, 30))
+        self.screen.blit(player1_text, (50, 50))
+        self.screen.blit(player2_text, (self.WIDTH - 135, 50))
 
         # self.screen.blit(text_surface, (190, 450))
 
@@ -578,14 +577,12 @@ class PickCharactersStage:
         preview_pic = pygame.transform.scale(selected_char, (preview_width, preview_height))
 
         left_x = 15
-        left_y = ((self.HEIGHT - preview_height) // 2) - 35
-        left_y_alt = ((self.HEIGHT - preview_height) // 2) - 25
+        left_y = ((self.HEIGHT - preview_height) // 2) - 20
         self.screen.blit(preview_pic, (left_x, left_y))
         
         preview_pic = pygame.transform.scale(selected_charP2, (preview_width, preview_height))
         right_x = self.WIDTH - preview_width - 15
-        right_y = ((self.HEIGHT - preview_height) // 2) - 35
-        right_y_alt = ((self.HEIGHT - preview_height) // 2) - 25
+        right_y = ((self.HEIGHT - preview_height) // 2) - 20
         flip = pygame.transform.flip(preview_pic, True, False)
         self.screen.blit(flip, (right_x, right_y))
 
@@ -604,35 +601,45 @@ class PickCharactersStage:
         name_surfaceP2 = self.game_over_font.render(nameP2, True, self.BLACK)
         name_rect_left = name_surface.get_rect(center=(
             left_x + (preview_width // 2),
-            left_y + preview_height + 20
+            left_y + preview_height + 15
         ))
         name_rect_right = name_surfaceP2.get_rect(center=(
             right_x + (preview_width // 2),
-            right_y + preview_height + 20
+            right_y + preview_height + 15
         ))
         self.screen.blit(name_surface, name_rect_left)
+        pygame.draw.rect(self.screen, self.BLACK,
+        (
+            name_rect_left.x - panel_padding, name_rect_left.y - panel_padding-1,
+            name_rect_left.width + (panel_padding*2), name_rect_left.height + (panel_padding*2)
+        ), width=2)
         self.screen.blit(name_surfaceP2, name_rect_right)
+        pygame.draw.rect(self.screen, self.BLACK,
+        (
+            name_rect_right.x - panel_padding, name_rect_right.y - panel_padding-1,
+            name_rect_right.width + (panel_padding*2), name_rect_right.height + (panel_padding*2)
+        ), width=2)
 
         # skip drawing difficulty if stats menu is open
         if self.show_stats:
-            self.draw_stats(1, left_x, right_x, preview_width, left_y_alt+preview_height+30)
+            self.draw_stats(1, left_x, preview_width, left_y+preview_height+30)
         else:
             difficulty1_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_left = difficulty1_text.get_rect(center=(
                 left_x + (preview_width // 2),
-                left_y_alt + preview_height + 45
+                left_y + preview_height + 45
             ))
             self.screen.blit(difficulty1_text, diff_rect_left)
             # moved draw difficulty to a function for better comprehension, and moved it out of the loop bc it was being drawn rows*cols times
             self.draw_difficulty(plr=1, rect=rect)
 
         if self.show_statsP2:   # since the show_stats are set to False when changing selection, the "Difficulty" text will already be drawn, no need to do it again
-            self.draw_stats(2, left_x, right_x, preview_width, right_y_alt+preview_height+30)
+            self.draw_stats(2, right_x, preview_width, right_y+preview_height+30)
         else:
             difficulty2_text = self.difficulty_font.render("Difficulty", True, self.BLACK)
             diff_rect_right = difficulty2_text.get_rect(center=(
                 right_x + (preview_width // 2),
-                right_y_alt + preview_height + 45
+                right_y + preview_height + 45
             ))
             self.screen.blit(difficulty2_text, diff_rect_right)
             self.draw_difficulty(plr=2, rect=rect)
