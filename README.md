@@ -1,7 +1,7 @@
 **How to Download and Install**
 * Requires download of Python and Pygame. Our group ran the project using a virtual environment on VSCode (but not required)
 * Download this repo and initialize all submodules:
-bash ```
+```bash
   git pull https://github.com/dmmohr17/CS407_Menu.git
   cd CS407_Menu
   git submodule update --init --recursive
