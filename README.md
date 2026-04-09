@@ -1,4 +1,5 @@
 **How to Download and Install (Two Methods)**
+
 **METHOD 1:**
 * Go to dist folder and download and run the "main.exe" file
 
