@@ -6,6 +6,7 @@ import numpy as np
 import map_select.revolvingQueue_utils
 import time;
 from gameplay.gameplay_stage import GamePlayStage
+pygame.mixer.init()
 
 class PickMapStage:
     def __init__(self, arena, lives, two_player):

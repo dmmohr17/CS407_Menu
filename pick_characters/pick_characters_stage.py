@@ -2,6 +2,7 @@ import os
 import sys
 from sys import exit
 import pygame
+pygame.mixer.init()
 
 class PickCharactersStage:
     def __init__(self, arena, lives, two_player):
