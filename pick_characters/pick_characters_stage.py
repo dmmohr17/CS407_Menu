@@ -166,8 +166,15 @@ class PickCharactersStage:
                     exit()
 
 
-                if event.key == pygame.K_b:
+                if event.key == pygame.K_b and self.p1_selected == False:
                     return ("BOOTSTRAP", {})
+                elif event.key == pygame.K_b and self.p1_selected == True:
+                    self.p1_selected = False
+
+                if self.two_player == True and event.key == pygame.K_BACKSPACE and self.p2_selected == False:
+                    return ("BOOTSTRAP", {})
+                elif self.two_player == True and event.key == pygame.K_BACKSPACE and self.p2_selected == True:
+                    self.p2_selected = False
 
                 if(self.p1_selected == False):
                     rows = 3
@@ -652,17 +659,19 @@ class PickCharactersStage:
         if self.p2_selected == True:
             self.draw_ready(2)
 
-        text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
-        self.screen.blit(text_surface, (40, 480))
         if(self.two_player == True):
-            text_surface = self.instruction_font.render("-    P1: WASD = Move, E = Select, R/T = Color      -      P2: Arrows = Move, Enter = Select, [ / ] = Color  ", True, (0, 0, 0))
-            self.screen.blit(text_surface, (150, 480))
+            text_surface = self.instruction_font.render("B or Backspace for back", True, (0, 0, 0))
+            self.screen.blit(text_surface, (20, 480))
+            text_surface = self.instruction_font.render("-   P1: WASD = Move, E = Select, R/T = Color   -   P2: Arrows = Move, Enter = Select, [ / ] = Color  ", True, (0, 0, 0))
+            self.screen.blit(text_surface, (180, 480))
             text_surface = self.instruction_font.render("LShift to view stats", True, (0,0,0))
             self.screen.blit(text_surface, (175, 450))
             text_surface = self.instruction_font.render("RShift to view stats", True, (0,0,0))
             rect = text_surface.get_rect(topright=(self.WIDTH-175, 450))
             self.screen.blit(text_surface, rect)
         else:
+            text_surface = self.instruction_font.render("B for back", True, (0, 0, 0))
+            self.screen.blit(text_surface, (40, 480))
             text_surface = self.instruction_font.render("-  WASD to switch character  -  R T to select color  -  Shift for Stats  -", True, (0, 0, 0))
             self.screen.blit(text_surface, (110, 480))
             text_surface = self.instruction_font.render("Enter or E to select character", True, (0, 0, 0))
