@@ -1,3 +1,6 @@
+import os
+import sys
+from sys import exit
 import pygame
 
 class PickCharactersStage:
@@ -17,8 +20,152 @@ class PickCharactersStage:
         self.p1_selected = False
         self.p2_selected = False
 
-        self.instruction_font = pygame.font.SysFont("pick_characters/DIMIS___.TTF", 20)
-        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 50)
+        if getattr(sys, 'frozen', False):
+            font_path = os.path.join(sys._MEIPASS, 'pick_characters', 'DIMIS___.TTF')
+            click_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'click.mp3')
+            select_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'select.mp3')
+            
+            tide_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'tide.jpg')
+            tide_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'tide_prev.jpg')
+            tide_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'tide_prev1.png')
+            tide_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'tide_prev2.png')
+
+            deboer_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'kalen.png')
+            deboer_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'deboer_prev.png')
+            deboer_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'deboer_prev1.png')
+            deboer_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'deboer_prev2.png')
+
+            ref_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ref.jpg')
+            ref_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ref_prev.jpg')
+            ref_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ref_prev1.png')
+            ref_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ref_prev2.png')
+
+            jc_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'jc.png')
+            jc_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'jc_prev.jpg')
+            jc_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'jc_prev1.png')
+            jc_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'jc_prev2.png')
+
+            squirrel_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'squirrel.png')
+            squirrel_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'squirrel_prev.png')
+            squirrel_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'squirrel_prev1.png')
+            squirrel_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'squirrel_prev2.png')
+
+            al_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'al.png')
+            al_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'al_prev.jpg')
+            al_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'al_prev1.png')
+            al_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'al_prev2.png')
+
+            nick_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nick.jpg')
+            nick_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nick_prev.png')
+            nick_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nick_prev1.png')
+            nick_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nick_prev2.png')
+
+            ride_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ride.jpg')
+            ride_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ride_prev.jpg')
+            ride_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ride_prev1.png')
+            ride_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'ride_prev2.png')
+
+            veo_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'veo.png')
+            veo_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'veo_prev.jpg')
+            veo_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'veo_prev1.png')
+            veo_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'veo_prev2.png')
+
+            forrest_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'forrest.png')
+            forrest_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'forrest_prev.jpg')
+            forrest_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'forrest_prev1.png')
+            forrest_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'forrest_prev2.png')
+
+            nacho_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nacho.jpg')
+            nacho_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nacho_prev.jpg')
+            nacho_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nacho_prev1.png')
+            nacho_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'nacho_prev2.png')
+
+            alex_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'alex.jpg')
+            alex_path0 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'alex_prev.png')
+            alex_path1 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'alex_prev1.png')
+            alex_path2 = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'alex_prev2.png')
+
+            star_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'star.png')
+            hollow_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'hollow.png')
+
+            self.h_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'hp_icon.svg')
+            self.a_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'str_icon.svg')
+            self.s_path = os.path.join(sys._MEIPASS, 'image_reference', 'chars', 'spd_icon.svg')
+
+        else:
+            font_path = 'pick_characters/DIMIS___.TTF'
+            click_path = 'image_reference/sounds/click.mp3'
+            select_path = 'image_reference/sounds/select.mp3'
+
+            tide_path = 'image_reference/chars/tide.jpg'
+            tide_path0 = 'image_reference/chars/tide_prev.jpg'
+            tide_path1 = 'image_reference/chars/tide_prev1.png'
+            tide_path2 = 'image_reference/chars/tide_prev2.png'
+
+            deboer_path = 'image_reference/chars/kalen.png'
+            deboer_path0 = 'image_reference/chars/deboer_prev.png'
+            deboer_path1 = 'image_reference/chars/deboer_prev1.png'
+            deboer_path2 = 'image_reference/chars/deboer_prev2.png'
+
+            ref_path = 'image_reference/chars/ref.jpg'
+            ref_path0 = 'image_reference/chars/ref_prev.jpg'
+            ref_path1 = 'image_reference/chars/ref_prev1.png'
+            ref_path2 = 'image_reference/chars/ref_prev2.png'
+
+            jc_path = 'image_reference/chars/jc.png'
+            jc_path0 = 'image_reference/chars/jc_prev.jpg'
+            jc_path1 = 'image_reference/chars/jc_prev1.png'
+            jc_path2 = 'image_reference/chars/jc_prev2.png'
+
+            squirrel_path = 'image_reference/chars/squirrel.png'
+            squirrel_path0 = 'image_reference/chars/squirrel_prev.png'
+            squirrel_path1 = 'image_reference/chars/squirrel_prev1.png'
+            squirrel_path2 = 'image_reference/chars/squirrel_prev2.png'
+
+            al_path = 'image_reference/chars/al.png'
+            al_path0 = 'image_reference/chars/al_prev.jpg'
+            al_path1 = 'image_reference/chars/al_prev1.png'
+            al_path2 = 'image_reference/chars/al_prev2.png'
+
+            nick_path = 'image_reference/chars/nick.jpg'
+            nick_path0 = 'image_reference/chars/nick_prev.png'
+            nick_path1 = 'image_reference/chars/nick_prev1.png'
+            nick_path2 = 'image_reference/chars/nick_prev2.png'
+
+            ride_path = 'image_reference/chars/ride.jpg'
+            ride_path0 = 'image_reference/chars/ride_prev.jpg'
+            ride_path1 = 'image_reference/chars/ride_prev1.png'
+            ride_path2 = 'image_reference/chars/ride_prev2.png'
+
+            veo_path = 'image_reference/chars/veo.png'
+            veo_path0 = 'image_reference/chars/veo_prev.jpg'
+            veo_path1 = 'image_reference/chars/veo_prev1.png'
+            veo_path2 = 'image_reference/chars/veo_prev2.png'
+
+            forrest_path = 'image_reference/chars/forrest.png'
+            forrest_path0 = 'image_reference/chars/forrest_prev.jpg'
+            forrest_path1 = 'image_reference/chars/forrest_prev1.png'
+            forrest_path2 = 'image_reference/chars/forrest_prev2.png'
+
+            nacho_path = 'image_reference/chars/nacho.jpg'
+            nacho_path0 = 'image_reference/chars/nacho_prev.jpg'
+            nacho_path1 = 'image_reference/chars/nacho_prev1.png'
+            nacho_path2 = 'image_reference/chars/nacho_prev2.png'
+
+            alex_path = 'image_reference/chars/alex.jpg'
+            alex_path0 = 'image_reference/chars/alex_prev.png'
+            alex_path1 = 'image_reference/chars/alex_prev1.png'
+            alex_path2 = 'image_reference/chars/alex_prev2.png'
+
+            star_path = 'image_reference/chars/star.png'
+            hollow_path = 'image_reference/chars/hollow.png'
+
+            self.h_path = 'image_reference/chars/hp_icon.svg'
+            self.a_path = 'image_reference/chars/str_icon.svg'
+            self.s_path = 'image_reference/chars/spd_icon.svg'
+
+        self.instruction_font = pygame.font.SysFont(font_path, 20)
+        self.ready_font = pygame.font.Font(font_path, 50)
 
         self.WIDTH = 800
         self.HEIGHT = 500
@@ -31,18 +178,18 @@ class PickCharactersStage:
 
         # character icons on select grid
         self.character_images = [
-            pygame.image.load("image_reference/chars/tide.jpg"),
-            pygame.image.load("image_reference/chars/kalen.png"),
-            pygame.image.load("image_reference/chars/ref.jpg"),
-            pygame.image.load("image_reference/chars/jc.png"),
-            pygame.image.load("image_reference/chars/squirrel.png"),
-            pygame.image.load("image_reference/chars/al.png"),
-            pygame.image.load("image_reference/chars/nick.jpg"),
-            pygame.image.load("image_reference/chars/ride.jpg"),
-            pygame.image.load("image_reference/chars/veo.png"),
-            pygame.image.load("image_reference/chars/forrest.png"),
-            pygame.image.load("image_reference/chars/nacho.jpg"),
-            pygame.image.load("image_reference/chars/alex.jpg")
+            pygame.image.load(tide_path),
+            pygame.image.load(deboer_path),
+            pygame.image.load(ref_path),
+            pygame.image.load(jc_path),
+            pygame.image.load(squirrel_path),
+            pygame.image.load(al_path),
+            pygame.image.load(nick_path),
+            pygame.image.load(ride_path),
+            pygame.image.load(veo_path),
+            pygame.image.load(forrest_path),
+            pygame.image.load(nacho_path),
+            pygame.image.load(alex_path)
         ]
 
         self.character_names = [
@@ -62,42 +209,42 @@ class PickCharactersStage:
 
         # pictures for characters when hovered over
         self.character_preview = [
-            pygame.image.load("image_reference/chars/tide_prev.jpg"),
-            pygame.image.load("image_reference/chars/tide_prev1.png"),
-            pygame.image.load("image_reference/chars/tide_prev2.png"),
-            pygame.image.load("image_reference/chars/deboer_prev.png"),
-            pygame.image.load("image_reference/chars/deboer_prev1.png"),
-            pygame.image.load("image_reference/chars/deboer_prev2.png"),
-            pygame.image.load("image_reference/chars/ref_prev.jpg"),
-            pygame.image.load("image_reference/chars/ref_prev1.png"),
-            pygame.image.load("image_reference/chars/ref_prev2.png"),
-            pygame.image.load("image_reference/chars/jc_prev.jpg"),
-            pygame.image.load("image_reference/chars/jc_prev1.png"),
-            pygame.image.load("image_reference/chars/jc_prev2.png"),
-            pygame.image.load("image_reference/chars/squirrel_prev.png"),
-            pygame.image.load("image_reference/chars/squirrel_prev1.png"),
-            pygame.image.load("image_reference/chars/squirrel_prev2.png"),
-            pygame.image.load("image_reference/chars/al_prev.jpg"),
-            pygame.image.load("image_reference/chars/al_prev1.png"),
-            pygame.image.load("image_reference/chars/al_prev2.png"),
-            pygame.image.load("image_reference/chars/nick_prev.png"),
-            pygame.image.load("image_reference/chars/nick_prev1.png"),
-            pygame.image.load("image_reference/chars/nick_prev2.png"),
-            pygame.image.load("image_reference/chars/ride_prev.jpg"),
-            pygame.image.load("image_reference/chars/ride_prev1.png"),
-            pygame.image.load("image_reference/chars/ride_prev2.png"),
-            pygame.image.load("image_reference/chars/veo_prev.jpg"), 
-            pygame.image.load("image_reference/chars/veo_prev1.png"),
-            pygame.image.load("image_reference/chars/veo_prev2.png"),
-            pygame.image.load("image_reference/chars/forrest_prev.jpg"),
-            pygame.image.load("image_reference/chars/forrest_prev1.png"),
-            pygame.image.load("image_reference/chars/forrest_prev2.png"),
-            pygame.image.load("image_reference/chars/nacho_prev.jpg"),
-            pygame.image.load("image_reference/chars/nacho_prev1.png"),
-            pygame.image.load("image_reference/chars/nacho_prev2.png"),
-            pygame.image.load("image_reference/chars/alex_prev.png"),
-            pygame.image.load("image_reference/chars/alex_prev1.png"),
-            pygame.image.load("image_reference/chars/alex_prev2.png")
+            pygame.image.load(tide_path0),
+            pygame.image.load(tide_path1),
+            pygame.image.load(tide_path2),
+            pygame.image.load(deboer_path0),
+            pygame.image.load(deboer_path1),
+            pygame.image.load(deboer_path2),
+            pygame.image.load(ref_path0),
+            pygame.image.load(ref_path1),
+            pygame.image.load(ref_path2),
+            pygame.image.load(jc_path0),
+            pygame.image.load(jc_path1),
+            pygame.image.load(jc_path2),
+            pygame.image.load(squirrel_path0),
+            pygame.image.load(squirrel_path1),
+            pygame.image.load(squirrel_path2),
+            pygame.image.load(al_path0),
+            pygame.image.load(al_path1),
+            pygame.image.load(al_path2),
+            pygame.image.load(nick_path0),
+            pygame.image.load(nick_path1),
+            pygame.image.load(nick_path2),
+            pygame.image.load(ride_path0),
+            pygame.image.load(ride_path1),
+            pygame.image.load(ride_path2),
+            pygame.image.load(veo_path0), 
+            pygame.image.load(veo_path1),
+            pygame.image.load(veo_path2),
+            pygame.image.load(forrest_path0),
+            pygame.image.load(forrest_path1),
+            pygame.image.load(forrest_path2),
+            pygame.image.load(nacho_path0),
+            pygame.image.load(nacho_path1),
+            pygame.image.load(nacho_path2),
+            pygame.image.load(alex_path0),
+            pygame.image.load(alex_path1),
+            pygame.image.load(alex_path2)
         ]
 
         # difficulty rating for each character
@@ -131,18 +278,18 @@ class PickCharactersStage:
             [5, 5, 1], # nacho
             [2, 3, 3]  # alex shunnarah
         ]
-        self.filled_star = pygame.image.load("image_reference/chars/star.png").convert_alpha()
-        self.hollow_star = pygame.image.load("image_reference/chars/hollow.png").convert_alpha()
+        self.filled_star = pygame.image.load(star_path).convert_alpha()
+        self.hollow_star = pygame.image.load(hollow_path).convert_alpha()
 
         self.show_stats = False
         self.show_statsP2 = False
 
-        self.game_over_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 23)
-        self.arena_message_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 40)
-        self.difficulty_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 18)
+        self.game_over_font = pygame.font.Font(font_path, 23)
+        self.arena_message_font = pygame.font.Font(font_path, 40)
+        self.difficulty_font = pygame.font.Font(font_path, 18)
 
-        self.player1_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
-        self.player2_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 25)
+        self.player1_font = pygame.font.Font(font_path, 25)
+        self.player2_font = pygame.font.Font(font_path, 25)
         self.BLUE = (0, 0, 255)
         self.RED = (255, 0, 0)
 
@@ -151,10 +298,8 @@ class PickCharactersStage:
 
         pygame.mixer.init()
 
-        self.click_sound = pygame.mixer.Sound("image_reference/sounds/click.mp3")
-        self.select_sound = pygame.mixer.Sound("image_reference/sounds/select.mp3")
-
-
+        self.click_sound = pygame.mixer.Sound(click_path)
+        self.select_sound = pygame.mixer.Sound(select_path)
 
     def updateGameplay(self):
         for event in pygame.event.get():
@@ -437,9 +582,9 @@ class PickCharactersStage:
                 pygame.draw.rect(self.screen, self.BLACK, rect, 1)
 
     def draw_stats(self, plr: int, left_x: int, right_x: int, width: int, y_offset: int):   # takes a bunch of args so it'll align with the preview even if it moves
-        hp_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/hp_icon.svg"), (20, 20))
-        str_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/str_icon.svg"), (20, 20))
-        spd_icon = pygame.transform.smoothscale(pygame.image.load("image_reference/chars/spd_icon.svg"), (20, 20))
+        hp_icon = pygame.transform.smoothscale(pygame.image.load(self.h_path), (20, 20))
+        str_icon = pygame.transform.smoothscale(pygame.image.load(self.a_path), (20, 20))
+        spd_icon = pygame.transform.smoothscale(pygame.image.load(self.s_path), (20, 20))
         filled = pygame.transform.smoothscale(self.filled_star, (16, 16))
         hollow = pygame.transform.smoothscale(self.hollow_star, (16, 16))
         if plr == 1:

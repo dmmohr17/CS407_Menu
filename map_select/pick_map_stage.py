@@ -1,3 +1,6 @@
+import os
+import sys
+from sys import exit
 import pygame
 import numpy as np
 import map_select.revolvingQueue_utils
@@ -27,10 +30,33 @@ class PickMapStage:
         self.flipped = False
         self.check_ready = False
 
-        self.my_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 50)
-        self.stage_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 30)
+        if getattr(sys, 'frozen', False):
+            font_path = os.path.join(sys._MEIPASS, 'pick_characters', 'DIMIS___.TTF')
+            self.click_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'click.mp3')
+            self.select_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'select.mp3')
+            self.cardflip_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'cardFlip.mp3')
+            self.elephant_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'elephant.mp3')
+            self.waffle_path = os.path.join(sys._MEIPASS, 'image_reference', 'background', 'waffle.jpg')
+            self.shelby_path = os.path.join(sys._MEIPASS, 'image_reference', 'background', 'shelby.jpg')
+            self.bdenny_path = os.path.join(sys._MEIPASS, 'image_reference', 'background', 'bdenny.jpg')
+            self.quad_path = os.path.join(sys._MEIPASS, 'image_reference', 'background', 'quad.png')
+            self.rounders_path = os.path.join(sys._MEIPASS, 'image_reference', 'background', 'rounders.jpg')
+        else:
+            font_path = 'pick_characters/DIMIS___.TTF'
+            self.click_path = 'image_reference/sounds/click.mp3'
+            self.select_path = 'image_reference/sounds/select.mp3'
+            self.cardflip_path = 'image_reference/sounds/cardFlip.mp3'
+            self.elephant_path = 'image_reference/sounds/elephant.mp3'
+            self.waffle_path = 'image_reference/background/waffle.jpg'
+            self.shelby_path = 'image_reference/background/shelby.jpg'
+            self.bdenny_path = 'image_reference/background/bdenny.jpg'
+            self.quad_path = 'image_reference/background/quad.png'
+            self.rounders_path = 'image_reference/background/rounders.jpg'
+
+        self.my_font = pygame.font.Font(font_path, 50)
+        self.stage_font = pygame.font.Font(font_path, 30)
         self.instruction_font = pygame.font.SysFont('Veranda', 20)
-        self.ready_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 200)
+        self.ready_font = pygame.font.Font(font_path, 200)
 
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption("Pick Arena")
@@ -45,11 +71,11 @@ class PickMapStage:
     
     def load_assets(self):
 
-        self.waffle_background_image = pygame.image.load('image_reference/background/waffle.jpg').convert_alpha()
-        self.shelby_background_image = pygame.image.load('image_reference/background/shelby.jpg').convert_alpha()
-        self.bdenny_map_background_image = pygame.image.load('image_reference/background/bdenny.jpg').convert_alpha()
-        self.quad_map_background_image = pygame.image.load('image_reference/stage_select/quad.png').convert_alpha()
-        self.rounders_map_background_image = pygame.image.load('image_reference/background/rounders.jpg').convert_alpha()
+        self.waffle_background_image = pygame.image.load(self.waffle_path).convert_alpha()
+        self.shelby_background_image = pygame.image.load(self.shelby_path).convert_alpha()
+        self.bdenny_map_background_image = pygame.image.load(self.bdenny_path).convert_alpha()
+        self.quad_map_background_image = pygame.image.load(self.quad_path).convert_alpha()
+        self.rounders_map_background_image = pygame.image.load(self.rounders_path).convert_alpha()
 
         self.map_image_list = [
             {"name": "Waffle House", "idx": 0, "image": self.waffle_background_image, "size": "Small", "elevation": "None", "dynamic": "Yes"},
@@ -63,10 +89,10 @@ class PickMapStage:
             None
         )
 
-        self.click_sound = pygame.mixer.Sound("image_reference/sounds/click.mp3")
-        self.card_flip_sound = pygame.mixer.Sound("image_reference/sounds/cardFlip.mp3")
-        self.select_sound = pygame.mixer.Sound("image_reference/sounds/select.mp3")
-        self.elephant_sound = pygame.mixer.Sound("image_reference/sounds/elephant.mp3");
+        self.click_sound = pygame.mixer.Sound(self.click_path)
+        self.card_flip_sound = pygame.mixer.Sound(self.cardflip_path)
+        self.select_sound = pygame.mixer.Sound(self.select_path)
+        self.elephant_sound = pygame.mixer.Sound(self.elephant_path)
 
         return
 

@@ -17,6 +17,7 @@ def create_stage(stage_name, data):
     elif stage_name == "GAME_OVER":
         return GameOverStage(**data)
     
+    # pyinstaller --onefile --noconsole --add-data "pick_characters/DIMIS___.TTF;pick_characters" --add-data "image_reference/chars/*.*;image_reference/chars" --add-data "image_reference/sounds/*.*;image_reference/sounds" --add-data "image_reference/background/*.*;image_reference/background" main.py
 
 current_stage = BootStrapStage()
 #current_stage = GamePlayStage('name_of_the_wind', 'throwing_knife', 'Starry Space', arena=False, lives=3)

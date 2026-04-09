@@ -1,5 +1,7 @@
+import os
+import sys
+from sys import exit
 import pygame
-
 
 class BootStrapStage:
     def __init__(self):
@@ -24,11 +26,18 @@ class BootStrapStage:
         self.BLACK = (0, 0, 0)
         self.CRIMSON = (154, 23, 37)
 
-        self.title_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 56)
-        self.option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 38)
-        self.small_option_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 20)
-        self.help_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 20)
-        self.credits_font = pygame.font.Font("pick_characters/DIMIS___.TTF", 28)
+        if getattr(sys, 'frozen', False):
+            font_path = os.path.join(sys._MEIPASS, 'pick_characters', 'DIMIS___.TTF')
+            bgm_path = os.path.join(sys._MEIPASS, 'image_reference', 'sounds', 'YeaBama.mp3')
+        else:
+            font_path = 'pick_characters/DIMIS___.TTF'
+            bgm_path = 'image_reference/sounds/YeaBama.mp3'
+
+        self.title_font = pygame.font.Font(font_path, 56)
+        self.option_font = pygame.font.Font(font_path, 38)
+        self.small_option_font = pygame.font.Font(font_path, 20)
+        self.help_font = pygame.font.Font(font_path, 20)
+        self.credits_font = pygame.font.Font(font_path, 28)
 
         self.credits_lines = [
             "CS407 Fighting Game",
@@ -52,7 +61,7 @@ class BootStrapStage:
         pygame.display.set_caption("FIGHTING GAME")
 
         pygame.mixer.init()
-        pygame.mixer.music.load("image_reference/sounds/YeaBama.mp3")
+        pygame.mixer.music.load(bgm_path)
         pygame.mixer.music.play(start=1.0, loops=-1)
 
     def updateGameplay(self):
