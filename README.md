@@ -15,6 +15,8 @@
 ```
 
 * Replicate environment using `venv`:
+1. Install venv: `python -m venv venv`
+2. Spin up virtual environment:
 
 ```bash
 python3 -m venv venv         # create virtual env
