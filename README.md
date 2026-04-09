@@ -1,8 +1,10 @@
 **How to Download and Install (Two Methods)**
+**METHOD 1:**
 * Go to dist folder and download and run the "main.exe" file
 
 *OR*
 
+**METHOD 2**
 * Requires download of Python and Pygame. Our group ran the project using a virtual environment on VSCode (but not required)
 * Download this repo and initialize all submodules:
 ```bash
