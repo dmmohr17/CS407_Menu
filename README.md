@@ -14,6 +14,14 @@
   git submodule update --init --recursive
 ```
 
+* Replicate environment using `venv`:
+
+```bash
+python3 -m venv venv         # create virtual env
+source venv/bin/activate     # activate
+pip install -r requirements.txt  # install dependencies
+```
+
 **How to Run**
 * [main](main.py) runs the game
 * Button commands are displayed at the bottom of the screen. Use WASD as player one to navigate the menu, and the arrows as player two
