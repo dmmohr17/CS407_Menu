@@ -17,7 +17,6 @@
 * Replicate environment using `venv`:
 1. Install venv: `python -m venv venv`
 2. Spin up virtual environment:
-
 ```bash
 python3 -m venv venv         # create virtual env
 source venv/bin/activate     # activate
@@ -38,7 +37,7 @@ To run this program on linux WSL (Ubuntu), navigate to `main.py` and press `ctrl
 ***NOTE***: This program requires little in terms of hardware, but is expected to have a working keyboard with all basic keys, numpad not required. 
 
 **Requirements**
-Required packages to run this program include `Numpy` and `Pygame`, as well as python. 
+Required packages to run this program include `Numpy` and `Pygame`, as well as python. Proper versions are available in [requirements.txt](requirements.txt).
 
 To verify your python version, please use the following.
 
